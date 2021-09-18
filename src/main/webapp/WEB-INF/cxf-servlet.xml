@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:jaxrs="http://cxf.apache.org/jaxrs" xmlns:cxf="http://cxf.apache.org/core"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+          	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+            http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+            http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+            http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+    		http://www.springframework.org/schema/mvc   
+    		http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+			http://www.springframework.org/schema/context 
+			http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+<!-- 启用autowire -->
+	<context:annotation-config />
+	
+	<!-- 启用spring注解扫描并指定包所在的位置 -->
+	<context:component-scan base-package="com.zt.*" />
+	<!-- 第一种发布方式：简单发布(没有接口的发布) -->
+	<!-- id:唯一标示  implementor：提供服务的类 address:服务的请求url-->
+	<!-- 
+	<jaxws:endpoint id="helloService" implementor="cn.itcast.cxf.HelloService" address="/hello">
+		加入请求的消息拦截器
+		<jaxws:inInterceptors>
+			<bean class="org.apache.cxf.interceptor.LoggingInInterceptor"></bean>
+		</jaxws:inInterceptors>
+		加入响应的消息拦截器
+		<jaxws:outInterceptors>
+			<bean class="org.apache.cxf.interceptor.LoggingOutInterceptor"></bean>
+		</jaxws:outInterceptors>
+	</jaxws:endpoint>
+	 -->
+	<!-- 第二种发布方式：带有接口的发布 -->
+	<!-- id:唯一标示 serviceClass：接口类型 address：服务的请求url-->
+	<jaxws:server id="importOrderService" serviceClass="com.zt.service.ImportOrderService" address="/importOrder">
+		<jaxws:serviceBean>
+			<!-- 服务的实现类 -->
+			<bean class="com.zt.service.impl.ImportOrderServiceImpl"></bean>
+		</jaxws:serviceBean>
+		<!-- 加入请求的消息拦截器 -->
+		<jaxws:inInterceptors>
+			<bean class="org.apache.cxf.interceptor.LoggingInInterceptor"></bean>
+		</jaxws:inInterceptors>
+		<!-- 加入响应的消息拦截器 -->
+		<jaxws:outInterceptors>
+			<bean class="org.apache.cxf.interceptor.LoggingOutInterceptor"></bean>
+		</jaxws:outInterceptors>
+	</jaxws:server> 
+		<jaxws:server id="importItemService" serviceClass="com.zt.service.ImportItemService" address="/importItem">
+		<jaxws:serviceBean>
+			<!-- 服务的实现类 -->
+			<bean class="com.zt.service.impl.ImportItemServiceImpl"></bean>
+		</jaxws:serviceBean>
+		<!-- 加入请求的消息拦截器 -->
+		<jaxws:inInterceptors>
+			<bean class="org.apache.cxf.interceptor.LoggingInInterceptor"></bean>
+		</jaxws:inInterceptors>
+		<!-- 加入响应的消息拦截器 -->
+		<jaxws:outInterceptors>
+			<bean class="org.apache.cxf.interceptor.LoggingOutInterceptor"></bean>
+		</jaxws:outInterceptors>
+	</jaxws:server> 
+			<jaxws:server id="importPlanService" serviceClass="com.zt.service.ImportPlanService" address="/importPlan">
+		<jaxws:serviceBean>
+			<!-- 服务的实现类 -->
+			<bean class="com.zt.service.impl.ImportPlanServiceImpl"></bean>
+		</jaxws:serviceBean>
+		<!-- 加入请求的消息拦截器 -->
+		<jaxws:inInterceptors>
+			<bean class="org.apache.cxf.interceptor.LoggingInInterceptor"></bean>
+		</jaxws:inInterceptors>
+		<!-- 加入响应的消息拦截器 -->
+		<jaxws:outInterceptors>
+			<bean class="org.apache.cxf.interceptor.LoggingOutInterceptor"></bean>
+		</jaxws:outInterceptors>
+	</jaxws:server> 
+	
+	<jaxws:server id="importZTZItemService" serviceClass="com.zt.service.ImportZTZItemService" address="/importZTZItem">
+		<jaxws:serviceBean>
+			<!-- 服务的实现类 -->
+			<bean class="com.zt.service.impl.ImportZTZItemServiceImpl"></bean>
+		</jaxws:serviceBean>
+		<!-- 加入请求的消息拦截器 -->
+		<jaxws:inInterceptors>
+			<bean class="org.apache.cxf.interceptor.LoggingInInterceptor"></bean>
+		</jaxws:inInterceptors>
+		<!-- 加入响应的消息拦截器 -->
+		<jaxws:outInterceptors>
+			<bean class="org.apache.cxf.interceptor.LoggingOutInterceptor"></bean>
+		</jaxws:outInterceptors>
+	</jaxws:server> 
+	
+	<jaxws:server id="importInventoryService" serviceClass="com.zt.service.ImportInventoryService" address="/importInventoryService">
+		<jaxws:serviceBean>
+			<!-- 服务的实现类 -->
+			<bean class="com.zt.service.impl.ImportInventoryServiceImpl"></bean>
+		</jaxws:serviceBean>
+		<!-- 加入请求的消息拦截器 -->
+		<jaxws:inInterceptors>
+			<bean class="org.apache.cxf.interceptor.LoggingInInterceptor"></bean>
+		</jaxws:inInterceptors>
+		<!-- 加入响应的消息拦截器 -->
+		<jaxws:outInterceptors>
+			<bean class="org.apache.cxf.interceptor.LoggingOutInterceptor"></bean>
+		</jaxws:outInterceptors>
+	</jaxws:server> 
+
+	<jaxws:server id="importorderStep" serviceClass="com.zt.service.ImportorderStep" address="/importorderStep">
+		<jaxws:serviceBean>
+			<!-- 服务的实现类 -->
+			<bean class="com.zt.service.impl.ImportorderStepImpl"></bean>
+		</jaxws:serviceBean>
+		<!-- 加入请求的消息拦截器 -->
+		<jaxws:inInterceptors>
+			<bean class="org.apache.cxf.interceptor.LoggingInInterceptor"></bean>
+		</jaxws:inInterceptors>
+		<!-- 加入响应的消息拦截器 -->
+		<jaxws:outInterceptors>
+			<bean class="org.apache.cxf.interceptor.LoggingOutInterceptor"></bean>
+		</jaxws:outInterceptors>
+	</jaxws:server> 
+	
+	
+</beans>
+

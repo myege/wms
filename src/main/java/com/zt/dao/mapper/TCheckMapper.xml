@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.TCheckMapper" >
+  <resultMap id="BaseResultMap" type="com.zt.pojo.po.TCheck" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="companycode" property="companycode" jdbcType="VARCHAR" />
+    <result column="itemname" property="itemname" jdbcType="VARCHAR" />
+    <result column="itemcode" property="itemcode" jdbcType="VARCHAR" />
+    <result column="itemsku" property="itemsku" jdbcType="VARCHAR" />
+    <result column="storage" property="storage" jdbcType="VARCHAR" />
+    <result column="tinventory" property="tinventory" jdbcType="INTEGER" />
+    <result column="inventory" property="inventory" jdbcType="INTEGER" />
+    <result column="isdelete" property="isdelete" jdbcType="INTEGER" />
+    <result column="createTime" property="createtime" jdbcType="DATE" />
+    <result column="tname" property="tname" jdbcType="VARCHAR" />
+    <result column="tcode" property="tcode" jdbcType="VARCHAR" />
+    <result column="tsku" property="tsku" jdbcType="VARCHAR" />
+    <result column="tcompany" property="tcompany" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, companycode, itemname, itemcode, itemsku, storage, tinventory, inventory, isdelete, 
+    createTime, tname, tcode, tsku, tcompany, code
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zt.pojo.po.TCheckExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_check
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_check
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_check
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zt.pojo.po.TCheckExample" >
+    delete from t_check
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zt.pojo.po.TCheck" >
+    insert into t_check (id, companycode, itemname, 
+      itemcode, itemsku, storage, 
+      tinventory, inventory, isdelete, 
+      createTime, tname, tcode, 
+      tsku, tcompany, code
+      )
+    values (#{id,jdbcType=INTEGER}, #{companycode,jdbcType=VARCHAR}, #{itemname,jdbcType=VARCHAR}, 
+      #{itemcode,jdbcType=VARCHAR}, #{itemsku,jdbcType=VARCHAR}, #{storage,jdbcType=VARCHAR}, 
+      #{tinventory,jdbcType=INTEGER}, #{inventory,jdbcType=INTEGER}, #{isdelete,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=DATE}, #{tname,jdbcType=VARCHAR}, #{tcode,jdbcType=VARCHAR}, 
+      #{tsku,jdbcType=VARCHAR}, #{tcompany,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zt.pojo.po.TCheck" >
+    insert into t_check
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="companycode != null" >
+        companycode,
+      </if>
+      <if test="itemname != null" >
+        itemname,
+      </if>
+      <if test="itemcode != null" >
+        itemcode,
+      </if>
+      <if test="itemsku != null" >
+        itemsku,
+      </if>
+      <if test="storage != null" >
+        storage,
+      </if>
+      <if test="tinventory != null" >
+        tinventory,
+      </if>
+      <if test="inventory != null" >
+        inventory,
+      </if>
+      <if test="isdelete != null" >
+        isdelete,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="tname != null" >
+        tname,
+      </if>
+      <if test="tcode != null" >
+        tcode,
+      </if>
+      <if test="tsku != null" >
+        tsku,
+      </if>
+      <if test="tcompany != null" >
+        tcompany,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="companycode != null" >
+        #{companycode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemname != null" >
+        #{itemname,jdbcType=VARCHAR},
+      </if>
+      <if test="itemcode != null" >
+        #{itemcode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemsku != null" >
+        #{itemsku,jdbcType=VARCHAR},
+      </if>
+      <if test="storage != null" >
+        #{storage,jdbcType=VARCHAR},
+      </if>
+      <if test="tinventory != null" >
+        #{tinventory,jdbcType=INTEGER},
+      </if>
+      <if test="inventory != null" >
+        #{inventory,jdbcType=INTEGER},
+      </if>
+      <if test="isdelete != null" >
+        #{isdelete,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=DATE},
+      </if>
+      <if test="tname != null" >
+        #{tname,jdbcType=VARCHAR},
+      </if>
+      <if test="tcode != null" >
+        #{tcode,jdbcType=VARCHAR},
+      </if>
+      <if test="tsku != null" >
+        #{tsku,jdbcType=VARCHAR},
+      </if>
+      <if test="tcompany != null" >
+        #{tcompany,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zt.pojo.po.TCheckExample" resultType="java.lang.Integer" >
+    select count(*) from t_check
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_check
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.companycode != null" >
+        companycode = #{record.companycode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemname != null" >
+        itemname = #{record.itemname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemcode != null" >
+        itemcode = #{record.itemcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemsku != null" >
+        itemsku = #{record.itemsku,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storage != null" >
+        storage = #{record.storage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tinventory != null" >
+        tinventory = #{record.tinventory,jdbcType=INTEGER},
+      </if>
+      <if test="record.inventory != null" >
+        inventory = #{record.inventory,jdbcType=INTEGER},
+      </if>
+      <if test="record.isdelete != null" >
+        isdelete = #{record.isdelete,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null" >
+        createTime = #{record.createtime,jdbcType=DATE},
+      </if>
+      <if test="record.tname != null" >
+        tname = #{record.tname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tcode != null" >
+        tcode = #{record.tcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tsku != null" >
+        tsku = #{record.tsku,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tcompany != null" >
+        tcompany = #{record.tcompany,jdbcType=VARCHAR},
+      </if>
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_check
+    set id = #{record.id,jdbcType=INTEGER},
+      companycode = #{record.companycode,jdbcType=VARCHAR},
+      itemname = #{record.itemname,jdbcType=VARCHAR},
+      itemcode = #{record.itemcode,jdbcType=VARCHAR},
+      itemsku = #{record.itemsku,jdbcType=VARCHAR},
+      storage = #{record.storage,jdbcType=VARCHAR},
+      tinventory = #{record.tinventory,jdbcType=INTEGER},
+      inventory = #{record.inventory,jdbcType=INTEGER},
+      isdelete = #{record.isdelete,jdbcType=INTEGER},
+      createTime = #{record.createtime,jdbcType=DATE},
+      tname = #{record.tname,jdbcType=VARCHAR},
+      tcode = #{record.tcode,jdbcType=VARCHAR},
+      tsku = #{record.tsku,jdbcType=VARCHAR},
+      tcompany = #{record.tcompany,jdbcType=VARCHAR},
+      code = #{record.code,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zt.pojo.po.TCheck" >
+    update t_check
+    <set >
+      <if test="companycode != null" >
+        companycode = #{companycode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemname != null" >
+        itemname = #{itemname,jdbcType=VARCHAR},
+      </if>
+      <if test="itemcode != null" >
+        itemcode = #{itemcode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemsku != null" >
+        itemsku = #{itemsku,jdbcType=VARCHAR},
+      </if>
+      <if test="storage != null" >
+        storage = #{storage,jdbcType=VARCHAR},
+      </if>
+      <if test="tinventory != null" >
+        tinventory = #{tinventory,jdbcType=INTEGER},
+      </if>
+      <if test="inventory != null" >
+        inventory = #{inventory,jdbcType=INTEGER},
+      </if>
+      <if test="isdelete != null" >
+        isdelete = #{isdelete,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=DATE},
+      </if>
+      <if test="tname != null" >
+        tname = #{tname,jdbcType=VARCHAR},
+      </if>
+      <if test="tcode != null" >
+        tcode = #{tcode,jdbcType=VARCHAR},
+      </if>
+      <if test="tsku != null" >
+        tsku = #{tsku,jdbcType=VARCHAR},
+      </if>
+      <if test="tcompany != null" >
+        tcompany = #{tcompany,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zt.pojo.po.TCheck" >
+    update t_check
+    set companycode = #{companycode,jdbcType=VARCHAR},
+      itemname = #{itemname,jdbcType=VARCHAR},
+      itemcode = #{itemcode,jdbcType=VARCHAR},
+      itemsku = #{itemsku,jdbcType=VARCHAR},
+      storage = #{storage,jdbcType=VARCHAR},
+      tinventory = #{tinventory,jdbcType=INTEGER},
+      inventory = #{inventory,jdbcType=INTEGER},
+      isdelete = #{isdelete,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=DATE},
+      tname = #{tname,jdbcType=VARCHAR},
+      tcode = #{tcode,jdbcType=VARCHAR},
+      tsku = #{tsku,jdbcType=VARCHAR},
+      tcompany = #{tcompany,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

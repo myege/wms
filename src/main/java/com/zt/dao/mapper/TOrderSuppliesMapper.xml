@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.TOrderSuppliesMapper" >
+  <resultMap id="BaseResultMap" type="com.zt.pojo.po.TOrderSupplies" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="companyCode" property="companycode" jdbcType="VARCHAR" />
+    <result column="mailNo" property="mailno" jdbcType="VARCHAR" />
+    <result column="suppliesId" property="suppliesid" jdbcType="VARCHAR" />
+    <result column="suppliesName" property="suppliesname" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="VARCHAR" />
+    <result column="suppliesNum" property="suppliesnum" jdbcType="INTEGER" />
+    <result column="isToZtz" property="istoztz" jdbcType="INTEGER" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="isDeleted" property="isdeleted" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, companyCode, mailNo, suppliesId, suppliesName, price, suppliesNum, isToZtz, createTime, 
+    isDeleted, type
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zt.pojo.po.TOrderSuppliesExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_order_supplies
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_order_supplies
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_order_supplies
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zt.pojo.po.TOrderSuppliesExample" >
+    delete from t_order_supplies
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zt.pojo.po.TOrderSupplies" >
+    insert into t_order_supplies (id, companyCode, mailNo, 
+      suppliesId, suppliesName, price, 
+      suppliesNum, isToZtz, createTime, 
+      isDeleted, type)
+    values (#{id,jdbcType=INTEGER}, #{companycode,jdbcType=VARCHAR}, #{mailno,jdbcType=VARCHAR}, 
+      #{suppliesid,jdbcType=VARCHAR}, #{suppliesname,jdbcType=VARCHAR}, #{price,jdbcType=VARCHAR}, 
+      #{suppliesnum,jdbcType=INTEGER}, #{istoztz,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{isdeleted,jdbcType=INTEGER}, #{type,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zt.pojo.po.TOrderSupplies" >
+    insert into t_order_supplies
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="companycode != null" >
+        companyCode,
+      </if>
+      <if test="mailno != null" >
+        mailNo,
+      </if>
+      <if test="suppliesid != null" >
+        suppliesId,
+      </if>
+      <if test="suppliesname != null" >
+        suppliesName,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="suppliesnum != null" >
+        suppliesNum,
+      </if>
+      <if test="istoztz != null" >
+        isToZtz,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="isdeleted != null" >
+        isDeleted,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="companycode != null" >
+        #{companycode,jdbcType=VARCHAR},
+      </if>
+      <if test="mailno != null" >
+        #{mailno,jdbcType=VARCHAR},
+      </if>
+      <if test="suppliesid != null" >
+        #{suppliesid,jdbcType=VARCHAR},
+      </if>
+      <if test="suppliesname != null" >
+        #{suppliesname,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=VARCHAR},
+      </if>
+      <if test="suppliesnum != null" >
+        #{suppliesnum,jdbcType=INTEGER},
+      </if>
+      <if test="istoztz != null" >
+        #{istoztz,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isdeleted != null" >
+        #{isdeleted,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zt.pojo.po.TOrderSuppliesExample" resultType="java.lang.Integer" >
+    select count(*) from t_order_supplies
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_order_supplies
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.companycode != null" >
+        companyCode = #{record.companycode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mailno != null" >
+        mailNo = #{record.mailno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.suppliesid != null" >
+        suppliesId = #{record.suppliesid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.suppliesname != null" >
+        suppliesName = #{record.suppliesname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=VARCHAR},
+      </if>
+      <if test="record.suppliesnum != null" >
+        suppliesNum = #{record.suppliesnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.istoztz != null" >
+        isToZtz = #{record.istoztz,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null" >
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isdeleted != null" >
+        isDeleted = #{record.isdeleted,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_order_supplies
+    set id = #{record.id,jdbcType=INTEGER},
+      companyCode = #{record.companycode,jdbcType=VARCHAR},
+      mailNo = #{record.mailno,jdbcType=VARCHAR},
+      suppliesId = #{record.suppliesid,jdbcType=VARCHAR},
+      suppliesName = #{record.suppliesname,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=VARCHAR},
+      suppliesNum = #{record.suppliesnum,jdbcType=INTEGER},
+      isToZtz = #{record.istoztz,jdbcType=INTEGER},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      isDeleted = #{record.isdeleted,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zt.pojo.po.TOrderSupplies" >
+    update t_order_supplies
+    <set >
+      <if test="companycode != null" >
+        companyCode = #{companycode,jdbcType=VARCHAR},
+      </if>
+      <if test="mailno != null" >
+        mailNo = #{mailno,jdbcType=VARCHAR},
+      </if>
+      <if test="suppliesid != null" >
+        suppliesId = #{suppliesid,jdbcType=VARCHAR},
+      </if>
+      <if test="suppliesname != null" >
+        suppliesName = #{suppliesname,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=VARCHAR},
+      </if>
+      <if test="suppliesnum != null" >
+        suppliesNum = #{suppliesnum,jdbcType=INTEGER},
+      </if>
+      <if test="istoztz != null" >
+        isToZtz = #{istoztz,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isdeleted != null" >
+        isDeleted = #{isdeleted,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zt.pojo.po.TOrderSupplies" >
+    update t_order_supplies
+    set companyCode = #{companycode,jdbcType=VARCHAR},
+      mailNo = #{mailno,jdbcType=VARCHAR},
+      suppliesId = #{suppliesid,jdbcType=VARCHAR},
+      suppliesName = #{suppliesname,jdbcType=VARCHAR},
+      price = #{price,jdbcType=VARCHAR},
+      suppliesNum = #{suppliesnum,jdbcType=INTEGER},
+      isToZtz = #{istoztz,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      isDeleted = #{isdeleted,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

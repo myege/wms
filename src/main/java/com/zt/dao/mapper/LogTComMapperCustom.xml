@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.LogTComMapperCustom" >
+	<sql id="whereLogTCompany">
+		<if test="logTCompany !=null">
+			<where>
+				<if test="logTCompany.operationid!=null">
+					and operationid = #{logTCompany.operationid}
+				</if>	
+			</where>
+		</if>
+	</sql>
+  <select id="findAll" parameterType="com.zt.pojo.vo.CompanyDetailsVo" resultType="com.zt.pojo.po.LogTCompany">
+  	select * from log_t_company
+ 	<include refid="whereLogTCompany"></include>
+  	<include refid="com.zt.dao.mapper.Common.pageQuery"/>
+  </select>
+  
+  <select id="count" parameterType="com.zt.pojo.vo.CompanyDetailsVo" resultType="int">
+  	select count(id) from log_t_company
+ <include refid="whereLogTCompany"></include>
+  </select>
+
+  
+</mapper>

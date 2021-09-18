@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.TAnalysMapperCustom" >
+
+<select id="analys" statementType="STATEMENT" resultType="java.util.HashMap">
+<!-- select a.mailNo as mailNo,a.itemCount as itemsku,b.expresscode as exore,b.companyCode  as company from T_order_sku a  inner  join 
+(select mailNo,expresscode,companyCode from T_order where orderStep = 0) b on a.mailNo=b.mailNo  -->
+select a.mailNo as mailNo,a.itemCount as itemsku,b.expresscode as exore,b.companyCode  as company, count(a.mailNo) num  from T_order_sku a  inner  join 
+(select mailNo,expresscode,companyCode from T_order where orderStep = 0) b on a.mailNo=b.mailNo 
+Group by a.mailNo HAVING num   &lt;   2
+</select>
+
+<insert id="analysInsert" >
+insert into t_analys ( type, expreCode, skuNum, analysCode,userid,ordernum)values 
+<foreach collection="list" item="tan" separator=",">
+( #{tan.type,jdbcType=VARCHAR}, 
+#{tan.exprecode,jdbcType=VARCHAR}, #{tan.skunum,jdbcType=INTEGER}, #{tan.analyscode,jdbcType=VARCHAR},#{tan.userid,jdbcType=VARCHAR},#{tan.ordernum,jdbcType=VARCHAR})
+</foreach>
+</insert>
+
+<select id="findAll" parameterType="com.zt.pojo.vo.TAnalysVo" resultType="com.zt.pojo.po.TAnalys">
+	SELECT analysCode,expreCode,TYPE ,SUM(skuNum) as skunum ,count(*) as ordernum FROM t_analys GROUP BY analysCode
+		<include refid="com.zt.dao.mapper.Common.pageQuery"/>
+</select>
+
+<select id="count" parameterType="com.zt.pojo.po.TAnalys" resultType="int">
+select count(*) from (
+SELECT count(*) FROM t_analys GROUP BY analysCode)a
+</select>
+
+<delete id="deleteUser" parameterType="string">
+	delete from t_analys where userid = #{value}
+</delete>
+
+<select id="analyseSku" parameterType="com.zt.pojo.vo.TAnalysVo" resultType="com.zt.pojo.po.TOrderSku">
+select * from t_order_sku where mailno in (SELECT ordernum FROM t_analys where analysCode = #{tAnalys.analyscode})
+<include refid="com.zt.dao.mapper.Common.pageQuery"/>
+</select>
+
+ <select id="analysCount" parameterType="com.zt.pojo.vo.TAnalysVo" resultType="int">
+SELECT count(*) FROM t_analys where analyscode = #{tAnalys.analyscode}
+</select>
+ 
+<select id="findMailNo" parameterType="com.zt.pojo.vo.TAnalysVo" resultType="int">
+select id from t_order where mailno in (
+SELECT ordernum FROM t_analys where analysCode =  #{value})
+</select>
+
+</mapper>

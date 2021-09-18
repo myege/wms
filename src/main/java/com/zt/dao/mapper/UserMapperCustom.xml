@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.UserMapperCustom" >
+	<sql id="whereUserCustom">
+		<if test="userCustom!=null">
+			<where>
+				<if test="userCustom.name!=null">
+					and name like '%${userCustom.name}%'
+				</if>
+				<if test="userCustom.username!=null">
+					and username like '%${userCustom.username}%'
+				</if>
+				<if test="userCustom.password!=null">
+					and password like '%${userCustom.password}%'
+				</if>
+				<if test="userCustom.startTime!=null">
+					and createTime &gt;= #{userCustom.startTime}
+				</if>
+				<if test="userCustom.endTime!=null">
+					and createTime &lt;= #{userCustom.endTime}
+				</if>
+				<if test="userCustom.isdelete!=null">
+					and isDelete = #{userCustom.isdelete}
+				</if>
+			</where>
+		</if>
+	</sql>
+  <select id="findAll" parameterType="com.zt.pojo.vo.UserQueryVo" resultType="com.zt.pojo.po.UserCustom">
+  	select * from t_users
+  	<include refid="whereUserCustom"/>
+  	<include refid="com.zt.dao.mapper.Common.pageQuery"/>
+  </select>
+  
+  <select id="count" parameterType="com.zt.pojo.vo.UserQueryVo" resultType="int">
+  	select count(id) from t_users
+  	<include refid="whereUserCustom"/>
+  </select>
+  
+  <select id="findByIdAndName" resultType="com.zt.pojo.po.TUsers">
+  	select id,username from t_users where isdelete=0
+  </select>
+  
+</mapper>

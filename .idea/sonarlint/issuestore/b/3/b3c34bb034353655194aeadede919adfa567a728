@@ -1,0 +1,51 @@
+
+h
+java:S3252K"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(×ÉÀÑúÿÿÿÿ8œ»ÊÆ¾/
+H
+java:S1659Ë",Declare "arrayOfString1" on a separate line.(Ï¡ÁÜÿÿÿÿÿ
+p
+java:S2293²"YReplace the type specification in this constructor call with the diamond operator ("<>").(Áê” 
+[	java:S112="FDefine and throw a dedicated exception instead of using a generic one.(’ô˜ş
+t	java:S135–"YReduce the total number of break and continue statements in this loop to use at most one.(¼š¾Óıÿÿÿÿ
+>
+java:S1659m"#Declare "iCode" on a separate line.(Ç—§¹şÿÿÿÿ
+\	java:S112É"FDefine and throw a dedicated exception instead of using a generic one.(¸˜ûÒ
+E
+java:S1121Ì".Extract the assignment out of this expression.(…ÂíØ
+u
+java:S2293Ë"YReplace the type specification in this constructor call with the diamond operator ("<>").(Ï¡ÁÜÿÿÿÿÿ
+`	java:S112S"FDefine and throw a dedicated exception instead of using a generic one.(ÚÒÜùÿÿÿÿ
+S
+java:S1155z">Use isEmpty() to check whether the collection is empty or not.(Ş‰ƒ
+p
+java:S2293’"YReplace the type specification in this constructor call with the diamond operator ("<>").(ÃÈÔì
+;
+java:S1659Ë"Declare "b" on a separate line.(Ï¡ÁÜÿÿÿÿÿ
+c
+java:S3252V"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(šó·‚8ãÊÆ¾/
+i
+java:S3776"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(Å­•œ
+o
+java:S2293w"YReplace the type specification in this constructor call with the diamond operator ("<>").(Ã‰†Ú
+i
+java:S1192{"TDefine a constant instead of duplicating this literal "resources.messages2" 3 times.(ÉÅÀl
+h
+java:S3252H"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(ö¯ëèûÿÿÿÿ8ÄšÆ¾/
+]
+java:S1192š"FDefine a constant instead of duplicating this literal "upnum" 3 times.(ùşÕ¬
+c
+java:S3252@"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(²„ˆ‡8®íÆ¾/
+p
+java:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(ëÕúŞ
+]	java:S125"<This block of commented-out lines of code should be removed.( ß´Øøÿÿÿÿ8âÈœÆ¾/
+;
+java:S1659Ë"Declare "i" on a separate line.(Ï¡ÁÜÿÿÿÿÿ
+T
+java:S4719k"9Replace charset name argument with StandardCharsets.UTF_8(ñÖÖ¦ùÿÿÿÿ
+\	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(Å­•œ
+Y
+java:S4719k">Replace charset name argument with StandardCharsets.ISO_8859_1(ñÖÖ¦ùÿÿÿÿ
+h
+java:S3252["FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(Ò‚–ùÿÿÿÿ8ÛŒËÆ¾/
+c
+java:S3252^"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(Ï—©œ8ÛŒËÆ¾/

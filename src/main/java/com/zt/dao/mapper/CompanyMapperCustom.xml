@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.CompanyMapperCustom" >
+	<sql id="whereCompanyCustom">
+	<where>
+	isdelete=0 
+		<if test="companyCustom !=null">
+			<if test="companyCustom.companycode!=null">
+				and companycode like '%${companyCustom.companycode}%'
+			</if>	 
+			<if test="companyCustom.delivercompany!=null">
+				and delivercompany like '%${companyCustom.delivercompany}%'
+			</if>
+			<if test="companyCustom.companyname!=null">
+				and companyname like '%${companyCustom.companyname}%'
+			</if>
+			<if test="companyCustom.startTime!=null">
+				and createTime &gt;= #{companyCustom.startTime}
+			</if>
+			<if test="companyCustom.endTime!=null">
+				and createTime &lt;= #{companyCustom.endTime}
+			</if>
+		</if>
+		</where>
+	</sql>
+  <select id="findAll" parameterType="com.zt.pojo.vo.CompanyQueryVo" resultType="com.zt.pojo.po.CompanyCustom">
+  	select * from t_company 
+  	<include refid="whereCompanyCustom"/>
+  	<include refid="com.zt.dao.mapper.Common.pageQuery"/>
+  </select>
+  
+  <select id="count" parameterType="com.zt.pojo.vo.CompanyQueryVo" resultType="int">
+  	select count(id) from t_company
+  	<include refid="whereCompanyCustom"/>
+  </select>
+  <select id="findNameByCode" parameterType="string" resultType="com.zt.pojo.po.CompanyCustom">
+  	select companycode,companyname from t_company where companycode in( ${_parameter})
+  </select>
+    <select id="findByCode" parameterType="string" resultType="com.zt.pojo.po.TCompany">
+  	select delivercompany from t_company where companycode =#{0}
+  </select>
+  
+  
+  
+  
+  
+</mapper>

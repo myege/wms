@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.KcjgMapperCustom" >
+
+<select id="findAll" parameterType="com.zt.pojo.vo.KcjgQueryVo" resultType="com.zt.pojo.po.TKcjg">
+	select *from t_kcjg
+	<include refid="com.zt.dao.mapper.Common.pageQuery"/>
+</select>
+  
+  <select id="count" parameterType="com.zt.pojo.vo.KcjgQueryVo" resultType="int">
+  	select count(id) from t_kcjg
+  </select>
+  
+  
+</mapper>

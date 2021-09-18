@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.RGodownentryMapper" >
+  <resultMap id="BaseResultMap" type="com.zt.pojo.po.RGodownentry" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="godownDh" property="godowndh" jdbcType="VARCHAR" />
+    <result column="deliveryDh" property="deliverydh" jdbcType="VARCHAR" />
+    <result column="companyCode" property="companycode" jdbcType="VARCHAR" />
+    <result column="companyName" property="companyname" jdbcType="VARCHAR" />
+    <result column="cases" property="cases" jdbcType="INTEGER" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="arrivalTime" property="arrivaltime" jdbcType="TIMESTAMP" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="receiptName" property="receiptname" jdbcType="VARCHAR" />
+    <result column="receiptTime" property="receipttime" jdbcType="TIMESTAMP" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, godownDh, deliveryDh, companyCode, companyName, cases, num, arrivalTime, createTime, 
+    name, receiptName, receiptTime, type
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zt.pojo.po.RGodownentryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from r_godownentry
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from r_godownentry
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from r_godownentry
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zt.pojo.po.RGodownentryExample" >
+    delete from r_godownentry
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zt.pojo.po.RGodownentry" >
+    insert into r_godownentry (id, godownDh, deliveryDh, 
+      companyCode, companyName, cases, 
+      num, arrivalTime, createTime, 
+      name, receiptName, receiptTime, 
+      type)
+    values (#{id,jdbcType=INTEGER}, #{godowndh,jdbcType=VARCHAR}, #{deliverydh,jdbcType=VARCHAR}, 
+      #{companycode,jdbcType=VARCHAR}, #{companyname,jdbcType=VARCHAR}, #{cases,jdbcType=INTEGER}, 
+      #{num,jdbcType=INTEGER}, #{arrivaltime,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{name,jdbcType=VARCHAR}, #{receiptname,jdbcType=VARCHAR}, #{receipttime,jdbcType=TIMESTAMP}, 
+      #{type,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zt.pojo.po.RGodownentry" >
+    insert into r_godownentry
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="godowndh != null" >
+        godownDh,
+      </if>
+      <if test="deliverydh != null" >
+        deliveryDh,
+      </if>
+      <if test="companycode != null" >
+        companyCode,
+      </if>
+      <if test="companyname != null" >
+        companyName,
+      </if>
+      <if test="cases != null" >
+        cases,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="arrivaltime != null" >
+        arrivalTime,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="receiptname != null" >
+        receiptName,
+      </if>
+      <if test="receipttime != null" >
+        receiptTime,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="godowndh != null" >
+        #{godowndh,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverydh != null" >
+        #{deliverydh,jdbcType=VARCHAR},
+      </if>
+      <if test="companycode != null" >
+        #{companycode,jdbcType=VARCHAR},
+      </if>
+      <if test="companyname != null" >
+        #{companyname,jdbcType=VARCHAR},
+      </if>
+      <if test="cases != null" >
+        #{cases,jdbcType=INTEGER},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="arrivaltime != null" >
+        #{arrivaltime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="receiptname != null" >
+        #{receiptname,jdbcType=VARCHAR},
+      </if>
+      <if test="receipttime != null" >
+        #{receipttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zt.pojo.po.RGodownentryExample" resultType="java.lang.Integer" >
+    select count(*) from r_godownentry
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update r_godownentry
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.godowndh != null" >
+        godownDh = #{record.godowndh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deliverydh != null" >
+        deliveryDh = #{record.deliverydh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companycode != null" >
+        companyCode = #{record.companycode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyname != null" >
+        companyName = #{record.companyname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cases != null" >
+        cases = #{record.cases,jdbcType=INTEGER},
+      </if>
+      <if test="record.num != null" >
+        num = #{record.num,jdbcType=INTEGER},
+      </if>
+      <if test="record.arrivaltime != null" >
+        arrivalTime = #{record.arrivaltime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createtime != null" >
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiptname != null" >
+        receiptName = #{record.receiptname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receipttime != null" >
+        receiptTime = #{record.receipttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update r_godownentry
+    set id = #{record.id,jdbcType=INTEGER},
+      godownDh = #{record.godowndh,jdbcType=VARCHAR},
+      deliveryDh = #{record.deliverydh,jdbcType=VARCHAR},
+      companyCode = #{record.companycode,jdbcType=VARCHAR},
+      companyName = #{record.companyname,jdbcType=VARCHAR},
+      cases = #{record.cases,jdbcType=INTEGER},
+      num = #{record.num,jdbcType=INTEGER},
+      arrivalTime = #{record.arrivaltime,jdbcType=TIMESTAMP},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      name = #{record.name,jdbcType=VARCHAR},
+      receiptName = #{record.receiptname,jdbcType=VARCHAR},
+      receiptTime = #{record.receipttime,jdbcType=TIMESTAMP},
+      type = #{record.type,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zt.pojo.po.RGodownentry" >
+    update r_godownentry
+    <set >
+      <if test="godowndh != null" >
+        godownDh = #{godowndh,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverydh != null" >
+        deliveryDh = #{deliverydh,jdbcType=VARCHAR},
+      </if>
+      <if test="companycode != null" >
+        companyCode = #{companycode,jdbcType=VARCHAR},
+      </if>
+      <if test="companyname != null" >
+        companyName = #{companyname,jdbcType=VARCHAR},
+      </if>
+      <if test="cases != null" >
+        cases = #{cases,jdbcType=INTEGER},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="arrivaltime != null" >
+        arrivalTime = #{arrivaltime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="receiptname != null" >
+        receiptName = #{receiptname,jdbcType=VARCHAR},
+      </if>
+      <if test="receipttime != null" >
+        receiptTime = #{receipttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zt.pojo.po.RGodownentry" >
+    update r_godownentry
+    set godownDh = #{godowndh,jdbcType=VARCHAR},
+      deliveryDh = #{deliverydh,jdbcType=VARCHAR},
+      companyCode = #{companycode,jdbcType=VARCHAR},
+      companyName = #{companyname,jdbcType=VARCHAR},
+      cases = #{cases,jdbcType=INTEGER},
+      num = #{num,jdbcType=INTEGER},
+      arrivalTime = #{arrivaltime,jdbcType=TIMESTAMP},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      name = #{name,jdbcType=VARCHAR},
+      receiptName = #{receiptname,jdbcType=VARCHAR},
+      receiptTime = #{receipttime,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

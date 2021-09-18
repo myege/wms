@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.TemplateMapperCustom" >
+	<!-- <sql id="wheretemplateCustom">
+		<if test="templateCustom!=null">
+			<where>
+				<if test="templateCustom.name!=null">
+					and name like '%${templateCustom.name}%'
+				</if>
+				<if test="templateCustom.username!=null">
+					and username like '%${templateCustom.username}%'
+				</if>
+				<if test="templateCustom.password!=null">
+					and password like '%${templateCustom.password}%'
+				</if>
+				<if test="templateCustom.startTime!=null">
+					and createTime &gt;= #{templateCustom.startTime}
+				</if>
+				<if test="templateCustom.endTime!=null">
+					and createTime &lt;= #{templateCustom.endTime}
+				</if>
+				<if test="templateCustom.isdelete!=null">
+					and isDelete = #{templateCustom.isdelete}
+				</if>
+			</where>
+		</if>
+	</sql> -->
+  <select id="findAll" parameterType="com.zt.pojo.vo.TemplateQueryVo" resultType="com.zt.pojo.po.TemplateCustom">
+  	select * from t_template
+  	<!-- <include refid="wheretemplateCustom"/> -->
+  	<include refid="com.zt.dao.mapper.Common.pageQuery"/>
+  </select>
+  
+  <select id="count" parameterType="com.zt.pojo.vo.TemplateQueryVo" resultType="int">
+  	select count(id) from t_template
+  <!-- 	<include refid="wheretemplateCustom"/> -->
+  </select>
+  <delete id="delete" parameterType="int" >
+  	delete from t_template where id= #{id}
+  </delete>
+ <update id="updateDes" parameterType="com.zt.pojo.po.TTemplate">
+ 	UPDATE t_template SET templateData =#{templatedata} WHERE id = #{id}
+ </update>
+  
+</mapper>

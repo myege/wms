@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.JsSuppliesSkuMapperCustom" >
+<select id="findSkuById"  resultType="com.zt.pojo.po.JsSuppliesSkuCustom">
+   select* from js_supplies_sku j where companycode=#{0} and year(buytime)=#{1} and month(buytime)=#{2}
+</select>
+<select id="findByIds" parameterType="String" resultType="com.zt.pojo.po.JsSuppliesSkuCustom">
+   select * from js_supplies_sku where id in (${value} )
+</select>
+
+<select id="findSkuByCss"  resultType="com.zt.pojo.po.JsSuppliesSkuCustom">
+   select * from js_supplies_sku j where companycode=#{0} and year(buytime)=#{1} and month(buytime)=#{2}
+</select>
+
+<select id="totalSku" resultType="com.zt.pojo.po.TOrderSupplies">
+ select * from t_order_supplies where year(createtime)=#{0} and month(createtime)=#{1} and companycode=#{2}
+</select>
+
+<select id="findByMailNoAndSid" resultType="com.zt.pojo.po.JsSuppliesSkuCustom">
+  select * from js_supplies_sku where mailno=#{0} and suppliesid=#{1} and type=#{2}
+</select>
+
+<select id="findByCss" resultType="com.zt.pojo.po.JsSuppliesSkuCustom">
+ select * from js_supplies_sku where year(buytime)=#{0} and month(buytime)=#{1} and companycode=#{2}
+</select>
+</mapper>

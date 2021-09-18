@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.StorageMapperCustom" >
+	<sql id="whereFloorCustom">
+		<if test="floorCustom!=null">
+			<where>
+				<if test="floorCustom.floorname!=null">
+					and floorName like '%${floorCustom.floorname}%'
+				</if>
+				<if test="floorCustom.floornumber!=null">
+					and floorNumber like '%${floorCustom.floornumber}%'
+				</if>
+			</where>
+		</if>
+	</sql>
+	<sql id="whereStorageCustom">
+		<if test="storageCustom!=null">
+			<where>
+				<if test="storageCustom.floornumber!=null">
+					and floorNumber like '%${storageCustom.floornumber}%'
+				</if>
+				<if test="storageCustom.storage!=null">
+					and storage like '%${storageCustom.storage}%'
+				</if>
+				<if test="storageCustom.type!=null">
+					and type = #{storageCustom.type}
+				</if>
+				<if test="storageCustom.sprt!=null">
+					and sprt like '%${storageCustom.sprt}%'
+				</if>
+			</where>
+		</if>
+	</sql>
+  <select id="findAllFloor" parameterType="com.zt.pojo.vo.StorageQueryVo" resultType="com.zt.pojo.po.FloorCustom">
+  	select * from t_floor
+  	<include refid="whereFloorCustom"/>
+  	order by floorNumber
+  	<include refid="com.zt.dao.mapper.Common.pageQuery"/>
+  </select>
+  
+  <select id="countFloor" parameterType="com.zt.pojo.vo.StorageQueryVo" resultType="int">
+  	select count(id) from t_floor
+  	<include refid="whereFloorCustom"/>
+  </select>
+  
+    <select id="findAllStorage" parameterType="com.zt.pojo.vo.StorageQueryVo" resultType="com.zt.pojo.po.StorageCustom">
+  	select * from t_floor_storage
+  	<include refid="whereStorageCustom"/>
+  	order by storage
+  	<include refid="com.zt.dao.mapper.Common.pageQuery"/>
+  </select>
+  
+  <select id="countStorage" parameterType="com.zt.pojo.vo.StorageQueryVo" resultType="int">
+  	select count(id) from t_floor_storage
+  	<include refid="whereStorageCustom"/>
+  </select>
+  
+  <insert id="insertBatch">
+    insert into t_floor_storage (id, floorNumber, storage, 
+      createTime, type,sprt)
+    values
+    <foreach collection="list" item="storage" separator=",">
+         (#{storage.id,jdbcType=INTEGER}, #{storage.floornumber,jdbcType=VARCHAR}, #{storage.storage,jdbcType=VARCHAR}, 
+      #{storage.createtime,jdbcType=TIMESTAMP}, #{storage.type,jdbcType=VARCHAR},#{storage.sprt,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  
+  <select id="findsort" parameterType="int" resultType="com.zt.pojo.po.TFloorStorage">
+  	select * from t_floor_storage where sprt=#{0} and type = 0 ORDER BY storage
+  </select>
+  
+  <update id="updateType" >
+  	update t_floor_storage set type=0 where storage in
+  	<foreach collection="list" open="(" close=")" separator="," item="item">'${item.storage}'</foreach>
+  </update>
+  
+  <update id="updateSpot" parameterType="com.zt.pojo.po.TFloorStorage" >
+  	update r_inventory  set sort = #{sprt} where storage = #{storage}
+  </update>
+  
+  <select id="findShelfComPanyCodeAndItemCode" parameterType="string" statementType="STATEMENT" resultType="java.util.HashMap">
+  	select companyCode,itemCode from r_shelves where id = ${_parameter} 
+  </select>
+  
+   <select id="findShelfStorage" resultType="com.zt.pojo.po.RInventory">
+  	select * from r_inventory where companyCode = #{0} and itemcode = #{1} and type = 0 and sort = #{2} and storage not like "F%"
+  </select>
+  
+</mapper>

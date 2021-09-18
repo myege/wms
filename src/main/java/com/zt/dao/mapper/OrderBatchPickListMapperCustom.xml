@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.OrderBatchPickListMapperCustom">
+<delete id="delete">
+	 delete from t_order_batch_pick_list
+	 where id in
+	<foreach collection="list" item="supp" open="(" close=")" separator=","> 
+      ${supp.id}
+   </foreach>
+</delete>
+  
+  <select id="pickCount" parameterType="string" resultType="com.zt.pojo.po.TOrderBatchPickList">
+  	select itemCode,sum(pickCount) pickCount,itemName,batchNo from t_order_batch_pick_list where batchNo = #{batchno} group by itemCode,itemName,batchNo
+  </select>
+  
+    <select id="findTotalPick" parameterType="string" resultType="com.zt.pojo.po.OrderBatchPickListCustom">
+  		select itemCode,sum(pickCount) pickCount,batchNo,pickstoragelocation,itemName from t_order_batch_pick_list t where batchNo = #{string} group by itemCode,batchNo,pickstoragelocation order by pickstoragelocation 
+  </select>
+  
+   <select id="findTotalPickall" parameterType="string" resultType="com.zt.pojo.po.TOrderBatchPickList">
+  		<!-- SELECT * from t_order_batch_pick_list where batchNo = #{string}  order by orderno  --> 
+ SELECT t.*,ti.itemsku sku from t_order_batch_pick_list t,t_order_sku ti where t.mailno=ti.mailno and t.itemcode=ti.itemcode and  t.batchNo = #{string} order by orderno
+
+  </select>
+</mapper>

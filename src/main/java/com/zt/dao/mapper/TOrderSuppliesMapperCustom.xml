@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.TOrderSuppliesMapperCustom" >
+	<sql id="whereTOrderSuppliesMapperCustom">
+	<if test="tOrderSuppCustom!=null">
+		<where>
+			<if test="tOrderSuppCustom.companycode!=null">
+				and companyCode like '%${tOrderSuppCustom.companycode}%'
+			</if>
+			<if test="tOrderSuppCustom.companycode!=null">
+				and companyCode like '%${tOrderSuppCustom.companycode}%'
+			</if>
+			<if test="tOrderSuppCustom.startTime!=null">
+				and createTime &gt;= #{tOrderSuppCustom.startTime}
+			</if>
+			<if test="tOrderSuppCustom.endTime!=null">
+				and createTime &lt;= #{tOrderSuppCustom.endTime}
+			</if>	
+		</where>
+	</if>
+	ORDER BY createTime DESC
+</sql>
+
+<select id="findAll" parameterType="com.zt.pojo.vo.TOrderSuppQueryVo" resultType="com.zt.pojo.po.TOrderSuppCustom">
+ 	select * from t_order_supplies
+ 	<include refid="whereTOrderSuppliesMapperCustom"/>
+ 	<include refid="com.zt.dao.mapper.Common.pageQuery"/>
+ </select>
+
+<select id="count" parameterType="com.zt.pojo.vo.TOrderSuppQueryVo" resultType="int">
+ 	select count(id) from t_order_supplies
+ 	<include refid="whereTOrderSuppliesMapperCustom"/>
+</select>
+
+
+
+<insert id="add" >
+	  insert into t_order_supplies (id, companyCode, mailNo, 
+      suppliesId, suppliesName, price, 
+      suppliesNum, isToZtz, createTime, 
+      isDeleted, type)
+    values 
+    <foreach collection="list" item="order" separator=",">
+	    (#{order.id,jdbcType=INTEGER}, #{order.companycode,jdbcType=VARCHAR}, #{order.mailno,jdbcType=VARCHAR}, 
+      #{order.suppliesid,jdbcType=VARCHAR}, #{order.suppliesname,jdbcType=VARCHAR}, #{order.price,jdbcType=VARCHAR}, 
+      #{order.suppliesnum,jdbcType=INTEGER}, #{order.istoztz,jdbcType=INTEGER}, #{order.createtime,jdbcType=TIMESTAMP}, 
+      #{order.isdeleted,jdbcType=INTEGER}, #{order.type,jdbcType=INTEGER})
+     </foreach>
+</insert>
+
+<select id="findByIds" parameterType="string" resultType="com.zt.pojo.po.TOrderSuppCustom">
+	select * from t_order_supplies where id in(${value})
+</select>
+
+
+
+
+</mapper>

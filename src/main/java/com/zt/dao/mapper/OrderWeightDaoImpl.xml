@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zt.dao.mapper.OrderWeightDaoImpl">
+	<resultMap type="com.zt.pojo.po.OrderWeight" id="weightMapper">
+		<result column="expressNumber" property="expressNumber"/>
+		<result column="processNode" property="processNode"/>
+	</resultMap>
+	
+	<select id="findByNumberNew" parameterType="java.lang.String" resultType="java.lang.Integer">
+		select orderStep 
+		from t_order 
+		where mailNo = #{expressNumber}
+	</select>
+	
+	<update id="updateWeightNew" parameterType="com.zt.pojo.po.OrderWeight">
+		update t_order set 
+			orderStep = 9, 
+			weight = #{weight},
+			weightTime = NOW()
+			where mailNo = #{expressNumber} and orderStep='4'
+	</update>
+	
+	<select id="findOrderBatchPick" parameterType="java.lang.String" resultType="com.zt.pojo.po.TOrderBatchPickList">
+		select * from t_order_batch_pick_list 
+		where mailNo = #{expressNumber} 
+		and isDeleted = 0
+	</select>
+	
+	<update id="updateInventoryOccupy" parameterType="com.zt.pojo.po.TOrderBatchPickList">
+		update r_inventory set 
+		InventoryOccupy = InventoryOccupy - #{pickcount} 
+		where itemCode = #{itemcode} 
+		and storage = #{pickstoragelocation} 
+		and type = 0
+	</update>
+	
+	<insert id="addLog" parameterType="com.zt.pojo.po.TOrderBatchPickList">
+		INSERT INTO log_r_inventory(parentId, orderno, storage, sum, type, remark, createTime)
+		VALUES(#{id},#{orderno}, #{pickstoragelocation}, #{pickcount}, '称重出库', #{remark}, now());
+	</insert>
+	
+	<select id="findByStorage" resultType="com.zt.pojo.po.TFloorStorage" parameterType="string"> 
+		select * from t_floor_storage where storage =  #{0} and type = 0
+	</select>
+	
+	
+	
+</mapper>

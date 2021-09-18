@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.QjzyMapperCustom" >
+	<sql id="whereQjzyCustom">
+		<if test="qjzyCustom!=null">
+			<where>
+				<if test="qjzyCustom.companycode!=null">
+					and companyCode = #{qjzyCustom.companycode}
+				</if>
+				<if test="qjzyCustom.itemsku!=null">
+					and itemSku = #{qjzyCustom.itemsku}
+				</if>
+				<if test="qjzyCustom.itemname!=null">
+					and itemName = '%${qjzyCustom.itemname}%'
+				</if>
+				<if test="qjzyCustom.startTime!=null">
+					and createTime &gt;= #{qjzyCustom.startTime}
+				</if>
+				<if test="qjzyCustom.endTime!=null">
+					and createTime &lt;= #{qjzyCustom.endTime}
+				</if>
+			</where>
+		</if>
+	</sql>
+  <select id="findAll" parameterType="com.zt.pojo.vo.QjzyQueryVo" resultType="com.zt.pojo.po.QjzyCustom">
+  	select * from t_qjzy
+  	<include refid="whereQjzyCustom"/>
+  	<include refid="com.zt.dao.mapper.Common.pageQuery"/>
+  </select>
+  
+  <select id="count" parameterType="com.zt.pojo.vo.QjzyQueryVo" resultType="int">
+  	select count(id) from t_qjzy
+  	<include refid="whereQjzyCustom"/>
+  </select>
+
+  <delete id="deleteByIds">
+  	delete from t_qjzy where id in
+  	<foreach collection="array" open="(" close=")" item="id" separator=",">
+  		${id}
+  	</foreach>
+  </delete>
+
+
+
+<select id="findByIds" parameterType="string" resultType="com.zt.pojo.po.TQjzy">
+	select * from t_qjzy where id in (${_parameter})
+</select>
+
+  <select id="findBySecect" parameterType="com.zt.pojo.vo.QjzyQueryVo" resultType="com.zt.pojo.po.TQjzy">
+  	select * from t_qjzy
+  	<include refid="whereQjzyCustom"/>
+  </select>
+
+<update id="updateType" >
+	<foreach collection="list"  item="qjzy" separator=";"> update t_qjzy set type=1 ,receiver=#{qjzy.receiver} where id = #{qjzy.id}</foreach>
+</update>
+<update id="updateQjzyInventory" >
+	<foreach collection="list" item="qjzy" separator=";"> 
+	update r_inventory set shift=0,inventory=#{qjzy.num},type=#{qjzy.type}, omwtype= 2 where storage = #{qjzy.storage} and type = 0
+	</foreach> 
+</update>
+
+
+<insert id="addQjzyLogs"  >
+	 insert into log_r_inventory (  storage,  sum,
+      createTime,remark,type)
+    values 
+	  <foreach collection="list" item="item" separator=",">
+	    ( #{item.storage},  #{item.num}, now(),#{item.receivedaddress},"区间转移")
+	  </foreach>
+</insert>
+<update id="updateFloorStorage">
+<foreach collection="list" item="item" separator=",">
+	update t_floor_storage set type=#{item.type} where storage = #{item.storage} 
+</foreach>
+</update>
+
+
+</mapper>

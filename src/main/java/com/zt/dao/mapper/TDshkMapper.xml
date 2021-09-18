@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.TDshkMapper" >
+  <resultMap id="BaseResultMap" type="com.zt.pojo.po.TDshk" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="companyCode" property="companycode" jdbcType="VARCHAR" />
+    <result column="orderNo" property="orderno" jdbcType="VARCHAR" />
+    <result column="worth" property="worth" jdbcType="VARCHAR" />
+    <result column="sendName" property="sendname" jdbcType="VARCHAR" />
+    <result column="sendTel" property="sendtel" jdbcType="VARCHAR" />
+    <result column="sendAddress" property="sendaddress" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, companyCode, orderNo, worth, sendName, sendTel, sendAddress, createTime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zt.pojo.po.TDshkExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_dshk
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_dshk
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_dshk
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zt.pojo.po.TDshkExample" >
+    delete from t_dshk
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zt.pojo.po.TDshk" >
+    insert into t_dshk (id, companyCode, orderNo, 
+      worth, sendName, sendTel, 
+      sendAddress, createTime)
+    values (#{id,jdbcType=INTEGER}, #{companycode,jdbcType=VARCHAR}, #{orderno,jdbcType=VARCHAR}, 
+      #{worth,jdbcType=VARCHAR}, #{sendname,jdbcType=VARCHAR}, #{sendtel,jdbcType=VARCHAR}, 
+      #{sendaddress,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zt.pojo.po.TDshk" >
+    insert into t_dshk
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="companycode != null" >
+        companyCode,
+      </if>
+      <if test="orderno != null" >
+        orderNo,
+      </if>
+      <if test="worth != null" >
+        worth,
+      </if>
+      <if test="sendname != null" >
+        sendName,
+      </if>
+      <if test="sendtel != null" >
+        sendTel,
+      </if>
+      <if test="sendaddress != null" >
+        sendAddress,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="companycode != null" >
+        #{companycode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null" >
+        #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="worth != null" >
+        #{worth,jdbcType=VARCHAR},
+      </if>
+      <if test="sendname != null" >
+        #{sendname,jdbcType=VARCHAR},
+      </if>
+      <if test="sendtel != null" >
+        #{sendtel,jdbcType=VARCHAR},
+      </if>
+      <if test="sendaddress != null" >
+        #{sendaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zt.pojo.po.TDshkExample" resultType="java.lang.Integer" >
+    select count(*) from t_dshk
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_dshk
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.companycode != null" >
+        companyCode = #{record.companycode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderno != null" >
+        orderNo = #{record.orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.worth != null" >
+        worth = #{record.worth,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sendname != null" >
+        sendName = #{record.sendname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sendtel != null" >
+        sendTel = #{record.sendtel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sendaddress != null" >
+        sendAddress = #{record.sendaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_dshk
+    set id = #{record.id,jdbcType=INTEGER},
+      companyCode = #{record.companycode,jdbcType=VARCHAR},
+      orderNo = #{record.orderno,jdbcType=VARCHAR},
+      worth = #{record.worth,jdbcType=VARCHAR},
+      sendName = #{record.sendname,jdbcType=VARCHAR},
+      sendTel = #{record.sendtel,jdbcType=VARCHAR},
+      sendAddress = #{record.sendaddress,jdbcType=VARCHAR},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zt.pojo.po.TDshk" >
+    update t_dshk
+    <set >
+      <if test="companycode != null" >
+        companyCode = #{companycode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null" >
+        orderNo = #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="worth != null" >
+        worth = #{worth,jdbcType=VARCHAR},
+      </if>
+      <if test="sendname != null" >
+        sendName = #{sendname,jdbcType=VARCHAR},
+      </if>
+      <if test="sendtel != null" >
+        sendTel = #{sendtel,jdbcType=VARCHAR},
+      </if>
+      <if test="sendaddress != null" >
+        sendAddress = #{sendaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zt.pojo.po.TDshk" >
+    update t_dshk
+    set companyCode = #{companycode,jdbcType=VARCHAR},
+      orderNo = #{orderno,jdbcType=VARCHAR},
+      worth = #{worth,jdbcType=VARCHAR},
+      sendName = #{sendname,jdbcType=VARCHAR},
+      sendTel = #{sendtel,jdbcType=VARCHAR},
+      sendAddress = #{sendaddress,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

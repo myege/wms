@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.LogRInventoryMapperCustom" >
+  <sql id="whereLogRInventory">
+		<if test="logRInventory !=null">
+			<where>
+				<if test="logRInventory.parentid!=null">
+					and parentid = #{logRInventory.parentid}
+				</if>	
+				<if test="logRInventory.remark!=null">
+				    and remark like '%${logRInventory.remark}%'
+				</if>
+				<if test="logRInventory.storage!=null">
+				    and storage like '%${logRInventory.storage}%'
+				</if>
+			</where>
+		</if>
+	</sql>
+	
+   <select id="findAll" parameterType="com.zt.pojo.vo.LogRInventoryQueryVo" resultType="com.zt.pojo.po.LogRInventory">
+  	select * from log_r_inventory
+  	<include refid="whereLogRInventory"/>
+  	order by id desc 
+  	<include refid="com.zt.dao.mapper.Common.pageQuery"/> 	
+  </select>
+  
+    <select id="count" parameterType="com.zt.pojo.vo.CompanyDetailsVo" resultType="int">
+  	select count(id) from log_r_inventory
+ <include refid="whereLogRInventory"></include>
+  </select>
+  
+   <insert id="addLogs" parameterType="com.zt.pojo.po.LogRInventory" >
+    insert into log_r_inventory ( parentId, storage, orderno,
+      sum, type, remark, 
+      createTime)
+    values 
+	  <foreach collection="list" item="item" separator=",">
+	    ( #{item.parentid}, #{item.storage},  #{item.orderno},
+	      #{item.sum}, #{item.type}, #{item.remark}, 
+	      #{item.createtime})
+	  </foreach>
+  </insert>
+  
+
+  
+  
+  
+  
+</mapper>

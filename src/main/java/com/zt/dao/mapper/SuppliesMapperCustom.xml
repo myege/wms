@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.SuppliesMapperCustom" >
+	<sql id="whereSuppliesCustom">
+	<!-- 条件查询 -->
+		<if test="supplies!=null">
+				<where>
+					<if test="supplies.suppliesid!=null">
+						and suppliesid like '%${supplies.suppliesid}%'
+					</if>
+				</where>
+			</if>
+	
+	
+	
+	</sql>
+  <select id="findAll" parameterType="com.zt.pojo.vo.SuppliesQueryVo" resultType="com.zt.pojo.po.SuppliesCustom">
+  	select * from t_supplies 
+  	<include refid="whereSuppliesCustom"/>
+  	<include refid="com.zt.dao.mapper.Common.pageQuery"/>
+  </select>
+  
+  <select id="count" parameterType="com.zt.pojo.vo.SuppliesQueryVo" resultType="int">
+  	select count(id) from t_supplies
+  	<include refid="whereSuppliesCustom"/>
+  </select>
+  
+<select id="findCom" parameterType="com.zt.pojo.vo.SuppliesQueryVo" resultType="com.zt.pojo.po.TSupplies">
+  	select * from t_supplies 
+</select>
+  <delete id="delete" parameterType="string">
+  delete from t_supplies where id in (${value})
+  </delete>
+  
+<update id="updateSupp" parameterType="com.zt.pojo.po.TSupplies">
+<foreach collection="list" item="supp" > 
+ update t_supplies  
+   set 
+   number=number-${supp.number}
+     where id = ${supp.id};
+   </foreach>
+</update>
+  
+</mapper>

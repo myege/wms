@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.ClosingMapperCustom" >
+<sql id="wherecLOSINGCustom">
+	<if test="tOrderClosing!=null">
+		<where>
+			<if test="tOrderClosing.experss!=null">
+				and experss in (#{tOrderClosing.experss})
+			</if>
+			<if test="tOrderClosing.bourn!=null">
+				and bourn like '%${tOrderClosing.bourn}%'
+			</if>
+			<if test="tOrderClosing.experssno!=null">
+				and experssno like '%${tOrderClosing.experssno}%'
+			</if>
+			<if test="tOrderClosing.companyno!=null">
+				and companyno in (#{tOrderClosing.companyno})
+			</if>
+			<if test="tOrderClosing.type!=null">
+				and type like '%${tOrderClosing.type}%'
+			</if>
+			<if test="tOrderClosing.outtype!=null">
+				and outtype like '%${tOrderClosing.outtype}%'
+			</if>
+			<if test="startTime!=null">
+				and createTime &gt;= #{startTime}
+			</if>
+			<if test="endTime!=null">
+				and createTime &lt;= #{endTime}
+			</if>	
+		</where>
+	</if>
+</sql>
+<select id="findPriceAndClosingByList" resultType="java.util.HashMap" statementType="STATEMENT" >
+	select   a.weight,a.id,b.maxweight,b.minweight,b.maxnext,b.minnext   from  t_order_closing a   inner   join  t_experss_price b   on a.`experss` = b.`expressno`  where 	 1=1
+	 <if test="tOrderClosing.experss!=null">and a.experss like '%${tOrderClosing.experss}%'</if>
+	<if test="tOrderClosing.bourn!=null">and a.bourn like '%${tOrderClosing.bourn}%'</if>
+	<if test="tOrderClosing.experssno!=null">and a.experssno like '%${tOrderClosing.experssno}%'</if>
+	<if test="tOrderClosing.companyno!=null">and a.companyno like '%${tOrderClosing.companyno}%'</if>
+	
+	<if test="startTime!=null">and createTime &gt;= #{startTime}</if>
+	<if test="endTime!=null">and createTime &lt;= #{endTime}</if>	
+	 AND (a.bourn=b.bourn or a.bourn=b.bournBy) and a.type !=1
+</select>
+<select id="findPriceAndClosingByError"  resultType="int" >
+	SELECT a.id FROM t_order_closing a WHERE   NOT EXISTS(SELECT 1 FROM t_experss_price b WHERE  a.bourn=b.bourn OR a.bourn=b.bournBy AND a.`experss` = b.`expressno`)
+	<if test="tOrderClosing.experss!=null">and a.experss like '%${tOrderClosing.experss}%'</if>
+	<if test="tOrderClosing.bourn!=null">and a.bourn like '%${tOrderClosing.bourn}%'</if>
+	<if test="tOrderClosing.experssno!=null">and a.experssno like '%${tOrderClosing.experssno}%'</if>
+	<if test="tOrderClosing.companyno!=null">and a.companyno like '%${tOrderClosing.companyno}%'</if>
+	<if test="tOrderClosing.type!=null">and a.type like '%${tOrderClosing.type}%'</if>
+	<if test="startTime!=null">and createTime &gt;= #{startTime}</if>
+	<if test="endTime!=null">and createTime &lt;= #{endTime}</if>	
+	
+</select>
+
+<select id="findPriceAndClosing" parameterType="string" resultType="java.util.HashMap" statementType="STATEMENT" >
+	 select   a.weight,a.id,b.maxweight,b.minweight,b.maxnext,b.minnext   from  t_order_closing a   inner   join  t_experss_price b   on a.`experss` = b.`expressno`
+	 where   a.id in(${_parameter}) AND (a.bourn=b.bourn or a.bourn=b.bournBy) 
+</select>
+
+
+<select id="findAll" parameterType="com.zt.pojo.po.TOrderClosingCustom" resultType="com.zt.pojo.po.TOrderClosing">
+	select * from t_order_closing 
+	<include refid="wherecLOSINGCustom"></include>
+	<include refid="com.zt.dao.mapper.Common.pageQuery"></include>
+</select>
+
+<select id="findAllxlsx" parameterType="com.zt.pojo.po.TOrderClosingCustom" resultType="com.zt.pojo.po.TOrderClosing">
+	select * from t_order_closing where 1=1
+	<if test="tOrderClosing.experss!=null">and experss in (${tOrderClosing.experss})</if>
+	<if test="tOrderClosing.companyno!=null">and companyno in (${tOrderClosing.companyno})</if>
+	<if test="startTime!=null">and createTime &gt;= #{startTime}</if>
+	<if test="endTime!=null">and createTime &lt;= #{endTime}</if>	
+	<if test="tOrderClosing.type!=null">and type like '%${tOrderClosing.type}%'</if>
+	<if test="tOrderClosing.outtype!=null">and outtype like '%${tOrderClosing.outtype}%'</if>
+</select>
+
+<select id="count" parameterType="com.zt.pojo.po.TOrderClosingCustom" resultType="int">
+	select Count(id) from t_order_closing 
+	<include refid="wherecLOSINGCustom"></include>
+</select>
+
+<insert id="insertList">
+	 insert into t_order_closing (orderNo, companyNo, bourn, initial, weight,  experssno, type, createTime,  experss,outtype)
+    values 
+    <foreach collection="list" item="order" separator=",">
+    ( #{order.orderno,jdbcType=VARCHAR}, #{order.companycode,jdbcType=VARCHAR}, 
+      #{order.receiveprovince,jdbcType=VARCHAR}, '杭州', #{order.weight,jdbcType=INTEGER}, 
+      #{order.mailno,jdbcType=VARCHAR}, 0, #{order.createtime,jdbcType=TIMESTAMP},
+       #{order.expresscode,jdbcType=VARCHAR},0
+      )
+    </foreach>
+</insert>
+
+<select id="findOrderClosing" resultType="com.zt.pojo.po.TOrder">
+	select * from T_order where (isclosing=0 or isclosing is null) and orderStep = 9
+</select>
+
+<update id="updateOrderClosing" parameterType="com.zt.pojo.po.TOrder">
+update T_order set isclosing = 1 where id in
+<foreach collection="list" item="order" open="(" close=")" separator=",">#{order.id}</foreach>
+</update>
+
+
+
+<select id="findById" parameterType="int" resultType="com.zt.pojo.po.TOrderClosing">
+	select* from t_order_closing where id =(${_parameter})
+</select>
+
+<update id="updateMoney" parameterType="map">
+	<foreach collection="list" item="map" separator=";">
+		update t_order_closing set money = #{map.money} , type=#{map.type} ,endtime= now() where id =#{map.id} and type !=1
+	</foreach>
+</update>
+
+
+
+
+<select id="findPriceAndClosingError" resultType="int"  parameterType="string">
+<!-- SELECT a.id FROM t_order_closing a WHERE   NOT EXISTS(SELECT 1 FROM t_experss_price b WHERE  a.bourn=b.bourn OR a.bourn=b.bournBy 
+	and a.id in (${_parameter})
+	AND a.`experss` = b.`expressno`) -->
+	 SELECT a.id FROM t_order_closing a WHERE   NOT EXISTS(SELECT 1 FROM t_experss_price b WHERE b.bourn=a.bourn OR b.bournby=a.bourn AND a.`experss` = b.`expressno`) AND a.id IN(#{_parameter})
+</select>
+
+<update id="updateError" parameterType="string">
+	update t_order_closing set type = 2 where id in ${0}
+</update>
+
+<update id="updateErrorList">
+	update t_order_closing set type = 2 where id in <foreach collection="list" item="list" open="(" close=")" separator=",">${list}</foreach>
+</update>
+
+<select id="findReport" parameterType="com.zt.pojo.po.TOrderClosingCustom" resultType="java.util.HashMap" >
+ <choose>
+	<when test="tOrderClosing.experss!=null">
+	select experss,companyno,sum(weight) weigthZ,count(id) orders,sum(money) moneyZ from t_order_closing <include refid="wherecLOSINGCustom"></include>GROUP BY  companyno
+	</when>
+	<when test="tOrderClosing.companyno!=null">
+	select experss,companyno,sum(weight) weigthZ,count(id) orders,sum(money) moneyZ from t_order_closing <include refid="wherecLOSINGCustom"></include>GROUP BY  experss 
+	</when>
+	<otherwise>
+	select experss,sum(weight) weigthZ,count(id) orders,sum(money) moneyZ from t_order_closing <include refid="wherecLOSINGCustom"></include>GROUP BY  experss 
+    </otherwise>
+</choose>
+</select>
+
+<select id="findReportCount" parameterType="com.zt.pojo.po.TOrderClosingCustom" resultType="int"  >
+<choose>
+	<when test="tOrderClosing.experss!=null">
+	SELECT COUNT(*) FROM (SELECT  companyNo FROM t_order_closing<include refid="wherecLOSINGCustom"></include>  GROUP BY  companyno)orders
+	</when>
+	<when test="tOrderClosing.companyno!=null">
+	SELECT COUNT(*) FROM (SELECT  companyNo FROM t_order_closing<include refid="wherecLOSINGCustom"></include> GROUP BY  experss )orders 
+	</when>
+	<otherwise>
+	SELECT COUNT(*) FROM (SELECT  companyNo FROM t_order_closing<include refid="wherecLOSINGCustom"></include> GROUP BY  experss )orders 
+    </otherwise>
+</choose>
+</select>
+
+
+<select id="findReportCountDetails" parameterType="com.zt.pojo.po.TOrderClosingCustom" resultType="int"  >
+	SELECT COUNT(*) FROM (SELECT id FROM t_order_closing<include refid="wherecLOSINGCustom"></include>)orders 
+</select>
+
+<select id="Details" parameterType="com.zt.pojo.po.TOrderClosingCustom" resultType="java.util.HashMap" >
+	select experss,companyno,weight,orderno,money,initial,bourn,createtime from t_order_closing <include refid="wherecLOSINGCustom"></include> <include refid="com.zt.dao.mapper.Common.pageQuery"></include>
+</select>
+
+<select id="findPriceOut" parameterType="com.zt.pojo.po.TOrderClosingCustom"  resultType="java.util.HashMap" statementType="STATEMENT" >
+	select   a.outtype,a.weight,a.id,b.maxweight,b.minweight,b.maxnext,b.minnext   from  t_order_closing a   inner   join  t_experss_put b   on a.`experss` = b.`expressno` where ( a.bourn=b.bourn or a.bourn=b.bournby )
+	  	<if test="tOrderClosing.experss!=null">and a.experss like '%${tOrderClosing.experss}%'</if>
+		<if test="tOrderClosing.bourn!=null">and a.bourn like '%${tOrderClosing.bourn}%'</if>
+		<if test="tOrderClosing.experssno!=null">and a.experssno like '%${tOrderClosing.experssno}%'</if>
+		<if test="tOrderClosing.companyno!=null">and a.companyno like '%${tOrderClosing.companyno}%'</if>
+		and a.outtype !=1
+</select>
+<select id="findPriceOutError" parameterType="com.zt.pojo.po.TOrderClosingCustom"  resultType="int">
+	SELECT a.id FROM t_order_closing a WHERE   NOT EXISTS(SELECT 1 FROM t_experss_put b WHERE  a.bourn=b.bourn OR a.bourn=b.bournBy AND a.`experss` = b.`expressno`)
+	<if test="tOrderClosing.experss!=null">and a.experss like '%${tOrderClosing.experss}%'</if>
+	<if test="tOrderClosing.bourn!=null">and a.bourn like '%${tOrderClosing.bourn}%'</if>
+	<if test="tOrderClosing.experssno!=null">and a.experssno like '%${tOrderClosing.experssno}%'</if>
+	<if test="tOrderClosing.companyno!=null">and a.companyno like '%${tOrderClosing.companyno}%'</if>
+	<if test="tOrderClosing.outtype!=null">and a.outtype like '%${tOrderClosing.outtype}%'</if>
+	<if test="startTime!=null">and createTime &gt;= #{startTime}</if>
+	<if test="endTime!=null">and createTime &lt;= #{endTime}</if>	
+	
+</select>
+<select id="findPriceOutID" parameterType="com.zt.pojo.po.TOrderClosingCustom"  resultType="java.util.HashMap" statementType="STATEMENT" >
+	select   a.weight,a.id,b.maxweight,b.minweight,b.maxnext,b.minnext   from  t_order_closing a   inner   join  t_experss_put b   
+	on a.`experss` = b.`expressno` where ( a.bourn=b.bourn or a.bourn=b.bournby ) and a.id in(${_parameter})
+</select>
+<select id="findPriceOutErrorID" parameterType="com.zt.pojo.po.TOrderClosingCustom"  resultType="int">
+	SELECT a.id FROM t_order_closing a WHERE   NOT EXISTS(SELECT 1 FROM t_experss_put b WHERE b.bourn=a.bourn OR b.bournby=a.bourn AND a.`experss` = b.`expressno`) AND a.id IN(#{_parameter})
+</select>
+<update id="updateMoneyOut">
+	<foreach collection="list" item="map" separator=";">
+		update t_order_closing set outMoney	 = #{map.money} , outtype=#{map.type} ,outTime= now() where id =#{map.id} and outtype !=1
+	</foreach>
+</update>
+
+<update id="updateErrorListOut">
+	update t_order_closing set outtype = 2 where id in <foreach collection="list" item="list" open="(" close=")" separator=",">${list}</foreach>
+</update>
+
+
+
+
+</mapper>

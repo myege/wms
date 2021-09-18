@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.OrderSkuMapperCustom" >
+	<sql id="whereOrderSkuCustom">
+		<if test="orderSkuCustom!=null">
+			<where>
+				<if test="orderSkuCustom.orderno!=null">
+					and orderNo = #{orderSkuCustom.orderno}
+				</if>
+				<if test="orderSkuCustom.mailno!=null">
+					and mailNo = #{orderSkuCustom.mailno}
+				</if>
+				<if test="orderSkuCustom.isdeleted!=null">
+					and isDeleted = #{orderSkuCustom.isdeleted}
+				</if>
+				
+			</where>
+		</if>
+	</sql>
+  <select id="findSku" parameterType="com.zt.pojo.vo.OrderSkuVo" resultType="com.zt.pojo.po.OrderSkuCustom">
+  	select * from t_order_sku
+  	<include refid="whereOrderSkuCustom"/>
+  	<include refid="com.zt.dao.mapper.Common.pageQuery"/>
+  </select>
+  
+  <select id="count" parameterType="com.zt.pojo.vo.OrderSkuVo" resultType="int">
+  	select count(id) from t_order_sku
+  	<include refid="whereOrderSkuCustom"/>
+  </select>
+  
+ 
+  
+  <select id="countByBatchNo" parameterType="com.zt.pojo.vo.OrderSkuVo" resultType="int">
+  	select count(id) from t_order_sku where isDeleted = 0 and orderNo in (select orderNo from t_order where batchNo =#{orderSkuCustom.batchNo})
+  	<include refid="whereOrderSkuCustom"/>
+  </select>
+  
+   <select id="findAllByBatchNo" parameterType="com.zt.pojo.vo.OrderSkuVo" resultType="com.zt.pojo.po.OrderSkuCustom">
+  	select * from t_order_sku where isDeleted = 0 and orderNo in (select orderNo from t_order where batchNo =#{orderSkuCustom.batchNo})
+  	<include refid="com.zt.dao.mapper.Common.pageQuery"/>
+  </select>
+  
+  <select id="insertBatch" parameterType="com.zt.pojo.po.TOrderSku">
+ 	insert into t_order_sku (id, orderNo, mailNo, itemName, itemCount, 
+      unitPrice, allPrice, 
+      createTime, isDeleted,itemCode,itemSku)
+    values
+    <foreach collection="list" item="ordersku" separator=",">
+	    (#{ordersku.id,jdbcType=INTEGER}, #{ordersku.orderno,jdbcType=VARCHAR}, #{ordersku.mailno,jdbcType=VARCHAR}, 
+      #{ordersku.itemname,jdbcType=VARCHAR}, #{ordersku.itemcount,jdbcType=INTEGER}, 
+      #{ordersku.unitprice,jdbcType=DOUBLE}, #{ordersku.allprice,jdbcType=DOUBLE},  
+      #{ordersku.createtime,jdbcType=TIMESTAMP}, #{ordersku.isdeleted,jdbcType=INTEGER},#{ordersku.itemcode,jdbcType=VARCHAR},#{ordersku.itemsku,jdbcType=VARCHAR})
+     </foreach>
+  </select>
+  
+  <select id="findMails" resultType="com.zt.pojo.po.TOrderSku">
+  select ts.*, tl.pickStorageLocation from t_order_sku ts,t_order_batch_pick_list tl where ts.itemcode=tl.itemcode and ts.orderno=tl.orderno and ts.mailNo in
+  <foreach collection="array" item="skuMailNo"  index="index"
+            open="(" close=")" separator=",">
+	#{skuMailNo}
+  </foreach>
+  </select>
+ <!--  <select id="findMails" resultType="com.zt.pojo.po.TOrderSku">
+  select *from t_order_sku where mailNo in
+  <foreach collection="array" item="skuMailNo"  index="index"
+            open="(" close=")" separator=",">
+	#{skuMailNo}
+  </foreach> 
+  </select>-->
+  
+</mapper>

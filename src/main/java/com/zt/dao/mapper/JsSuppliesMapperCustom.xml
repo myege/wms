@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.JsSuppliesMapperCustom" >
+<sql id="whereJsSuppliesCustom">
+		<if test="jsSuppliesCustom!=null">
+			<where>
+				<if test="jsSuppliesCustom.suppliesyear!=null">
+					and substring(buytime,1,4) =#{jsSuppliesCustom.suppliesyear}
+				</if>
+				<if test="jsSuppliesCustom.suppliesmonth!=null">
+					and substring(buytime,6,2)=#{jsSuppliesCustom.suppliesmonth}
+				</if>
+				<if test="jsSuppliesCustom.companycode!=null">
+					and companycode =#{jsSuppliesCustom.companycode}
+				</if>
+				<if test="jsSuppliesCustom.paystatus!=null">
+					and paystatus =#{jsSuppliesCustom.paystatus}
+				</if>
+			</where>
+		</if>
+	</sql>
+	<select id="findByCompanycode" resultType="com.zt.pojo.po.JsSuppliesCustom">
+	   select id,
+  	companycode,
+  	money,
+  	payStatus,
+  	buyTime,
+  	payTime
+  	 from js_supplies j where companycode=#{2} and substring(buytime,1,4)=#{0}
+  	 and substring(buytime,6,2)=#{1}
+	</select>
+	
+ <select id="findAll" parameterType="com.zt.pojo.vo.JsSuppliesQueryVo" resultType="com.zt.pojo.po.JsSuppliesCustom">
+  	select id,
+  companycode,
+  	money,
+  	payStatus,
+  	buyTime,
+  	payTime
+  	 from js_supplies j
+  	<include refid="whereJsSuppliesCustom"/>
+  	<include refid="com.zt.dao.mapper.Common.pageQuery"/>
+  </select>
+  
+    <select id="count" parameterType="com.zt.pojo.vo.JsSuppliesQueryVo" resultType="int">
+  	select count(id) from js_supplies
+  	<include refid="whereJsSuppliesCustom"/>
+  </select>
+  
+  <select id="selectById" parameterType="Integer" resultType="com.zt.pojo.po.JsSuppliesCustom">
+ select * from js_supplies where id=${value} and payStatus=0
+  </select>
+  
+  <update id="updateJs" parameterType="com.zt.pojo.po.JsSuppliesCustom">
+    update js_supplies set payStatus=#{paystatus},payTime=#{paytime}
+     where id=#{id}
+  </update>
+  <select id="findByCodeAndMonth" resultType="com.zt.pojo.po.JsSuppliesCustom">
+      select * from js_supplies where companycode=#{0} and substring(buytime,1,4)=year(#{1}) and substring(buytime,6,2)=month(#{1})
+  </select>
+  
+  <update id="updateById" parameterType="com.zt.pojo.po.JsSuppliesCustom">
+     update js_supplies set money=${money} where id=${id}      
+  </update>
+  
+  <select id="findByIdsu" parameterType="String" resultType="com.zt.pojo.po.JsSuppliesCustom">
+   select id,
+  	companycode,
+  	money,
+  	payStatus,
+  	buyTime,
+  	payTime,
+  	substring(buytime,1,4) as suppliesyear,
+  	substring(buytime,6,2) as suppliesmonth
+from js_supplies where id in(${value})
+  </select>
+  
+  <select id="findBySame" resultType="com.zt.pojo.po.JsSuppliesCustom">
+    select * from js_supplies where substring(buytime,1,4)=#{0} and substring(buytime,6,2)=#{1} and companycode=#{2}
+  </select>
+</mapper>

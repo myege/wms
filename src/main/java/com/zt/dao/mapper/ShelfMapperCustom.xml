@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.ShelfMapperCustom" >
+	<sql id="whereShelfCustom">
+		<if test="shelfCustom!=null">
+			<where>
+				<if test="shelfCustom.godowndh!=null">
+					and godownDh like '%${shelfCustom.godowndh}%'
+				</if>
+				<if test="shelfCustom.companycode!=null">
+					and companyCode like '%${shelfCustom.companycode}%'
+				</if>
+				<if test="shelfCustom.sku!=null">
+					and sku like '%${shelfCustom.sku}%'
+				</if>
+				<if test="shelfCustom.type!=null">
+					and type = ${shelfCustom.type}
+				</if>
+			</where>
+		</if>
+	</sql>
+  <select id="findAll" parameterType="com.zt.pojo.vo.ShelfQueryVo" resultType="com.zt.pojo.po.ShelfCustom">
+  	select * from r_shelves
+  	<include refid="whereShelfCustom"/>
+  	order by id desc
+  	<include refid="com.zt.dao.mapper.Common.pageQuery"/>
+  </select>
+  
+  <select id="count" parameterType="com.zt.pojo.vo.ShelfQueryVo" resultType="int">
+  	select count(id) from r_shelves
+  	<include refid="whereShelfCustom"/>
+  </select>
+  
+  <insert  id="insertRG" parameterType="com.zt.pojo.po.RShelves" >
+	insert into r_shelves(receiptName, godownDh,itemCode,sku,itemName,sum,betterUseData,
+	createTime,type)
+	values
+	<foreach collection="list" item="item" index="index" separator=",">  
+		(#{item.receiptname}, #{item.godowndh},#{item.itemcode},
+ 	  	#{item.sku},#{item.itemname}, #{item.sum},
+    	 #{item.betterusedata},#{item.createtime}, #{item.type} )
+    </foreach>  
+</insert>
+
+  
+  
+</mapper>

@@ -1,0 +1,9 @@
+
+T
+java:S1155B">Use isEmpty() to check whether the collection is empty or not.(ÐË‡¥
+B
+java:S1481J"'Remove this unused "cc" local variable.(˜Í°¹øÿÿÿÿ
+X
+java:S2259:"CA "NullPointerException" could be thrown; "price" is nullable here.(åÝç8
+p
+java:S2293„"YReplace the type specification in this constructor call with the diamond operator ("<>").(ž¡¶¨

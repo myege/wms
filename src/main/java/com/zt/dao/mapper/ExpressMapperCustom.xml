@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.ExpressMapperCustom" >
+	<sql id="whereExpressCustom">
+		<if test="expressCustom">
+			<where>
+				<if test="expressCustom.isuse!=null">
+					and isUse = #{expressCustom.isuse}
+				</if>
+			</where>
+		</if>
+	</sql>
+
+  <select id="findAll" parameterType="com.zt.pojo.vo.ExpressQuertVo" resultType="com.zt.pojo.po.ExpressCustom">
+  	select * from t_express
+  	<include refid="whereExpressCustom"/>
+  	<include refid="com.zt.dao.mapper.Common.pageQuery"/>
+  </select>
+  
+  <select id="count" parameterType="com.zt.pojo.vo.ExpressQuertVo" resultType="int">
+  	select count(id) from t_express
+  	<include refid="whereExpressCustom"/>
+  </select>
+  <select id="findCox" parameterType="com.zt.pojo.vo.ExpressQuertVo" resultType="com.zt.pojo.po.ExpressCustom">
+  	select * from t_express where isUse =1
+  	
+  </select>
+  
+  <select id="findNameByCode" parameterType="com.zt.pojo.vo.ExpressQuertVo" resultType="com.zt.pojo.po.ExpressCustom">
+  select expressname ,express from t_express where isUse=1
+  </select>
+</mapper>

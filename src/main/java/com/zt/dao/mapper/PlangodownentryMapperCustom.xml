@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.PlangodownentryMapperCustom" >
+	<sql id="wherePlangodownentryCustom">
+		<if test="plangodownentryCustom!=null">
+			<where>
+				<if test="plangodownentryCustom.godowndh!=null">
+					and godownDh like '%${plangodownentryCustom.godowndh}%'
+				</if>
+				<if test="plangodownentryCustom.companycode!=null">
+					and companyCode like '%${plangodownentryCustom.companycode}%'
+				</if>
+				<!-- <if test="plangodownentryCustom.findarrivaltime!=null">
+					and arrivaltime=#{plangodownentryCustom.findarrivaltime}
+				</if> -->
+			</where>
+		</if>
+		ORDER BY createTime DESC
+	</sql>
+  <select id="findAll" parameterType="com.zt.pojo.vo.PlangodownentryQueryVo" resultType="com.zt.pojo.po.PlangodownentryCustom">
+  	select * from r_plangodownentry
+  	<include refid="wherePlangodownentryCustom"/>
+  	<include refid="com.zt.dao.mapper.Common.pageQuery"/>
+  </select>
+  
+  <select id="count" parameterType="com.zt.pojo.vo.PlangodownentryQueryVo" resultType="int">
+  	select count(id) from r_plangodownentry
+  	<include refid="wherePlangodownentryCustom"/>
+  </select>
+
+  <select id="findByGodowndh" parameterType="string" resultType="com.zt.pojo.po.RPlangodownentrySku">
+  	select * from r_plangodownentry_sku where godownDh=#{_parameter}
+  </select>
+
+
+ <update id="updateSum"  >
+ 	update r_plangodownentry_sku set trueSum= trueSum+#{1} , betterUseData = #{2,jdbcType=TIMESTAMP} where id=#{0}
+ </update>
+ 
+ <update id="updateType" parameterType="int">
+ 	update r_plangodownentry set type= '1' 
+	<where> 
+	 		id in
+		 	<foreach collection="array" item="item" separator="," open="(" close=")"> 
+		 	#{item} 
+		 	</foreach>
+	 	</where>
+ </update>
+ 
+  <select id="findGod" parameterType="string" resultType="com.zt.pojo.po.RPlangodownentrySku">
+  	select * from r_plangodownentry where godownDh=#{_parameter}
+  </select>
+ 
+
+  <select id="insertBatch">
+  	    insert into r_plangodownentry (id, godownDh, deliveryDh, 
+      companyCode, companyName, cases, 
+      num, arrivalTime, createTime, 
+      name, receiptName, receiptTime, 
+      type, returnType)
+    values
+    <foreach collection="list" item="item" separator=",">
+     (#{item.id,jdbcType=INTEGER}, #{item.godowndh,jdbcType=VARCHAR}, #{item.deliverydh,jdbcType=VARCHAR}, 
+      #{item.companycode,jdbcType=VARCHAR}, #{item.companyname,jdbcType=VARCHAR}, #{item.cases,jdbcType=INTEGER}, 
+      #{item.num,jdbcType=INTEGER}, #{item.arrivaltime,jdbcType=TIMESTAMP}, #{item.createtime,jdbcType=TIMESTAMP}, 
+      #{item.name,jdbcType=VARCHAR}, #{item.receiptname,jdbcType=VARCHAR}, #{item.receipttime,jdbcType=TIMESTAMP}, 
+      #{item.type,jdbcType=VARCHAR}, #{item.returntype,jdbcType=VARCHAR})
+      </foreach>
+  </select>
+
+  
+  <select id="insertSkuBatch">
+  	    insert into r_plangodownentry_sku (id, godownDh, companyCode, 
+      itemCode, sku, sum, 
+      betterUseData, itemName, trueSum
+      )
+    values
+      <foreach collection="list" item="item" separator=",">
+     (#{item.id,jdbcType=INTEGER}, #{item.godowndh,jdbcType=VARCHAR}, #{item.companycode,jdbcType=VARCHAR}, 
+      #{item.itemcode,jdbcType=VARCHAR}, #{item.sku,jdbcType=VARCHAR}, #{item.sum,jdbcType=INTEGER}, 
+      #{item.betterusedata,jdbcType=DATE}, #{item.itemname,jdbcType=VARCHAR}, #{item.truesum,jdbcType=INTEGER}
+      )
+      </foreach>
+  </select>
+</mapper>

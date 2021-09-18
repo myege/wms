@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.ItemMapperCustom" >
+	<sql id="whereItemCustom">
+		<if test="itemCustom!=null">
+			<where>
+				<if test="itemCustom.companycode!=null">
+					and companyCode in(${itemCustom.companycode})
+				</if>
+				<if test="itemCustom.companyname!=null">
+					and companyName like '%${itemCustom.companyname}%'
+				</if>
+				<if test="itemCustom.itemname!=null">
+					and itemName like '%${itemCustom.itemname}%'
+				</if>
+				<if test="itemCustom.itemcode!=null">
+					and itemCode like '%${itemCustom.itemcode}%'
+				</if>
+				<if test="itemCustom.sku!=null">
+					and sku like '%${itemCustom.sku}%'
+				</if>
+			</where>
+		</if>
+		ORDER BY createTime DESC
+	</sql>
+	
+	
+	<!-- 插入 -->
+	
+<insert  id="insertItem" parameterType="com.zt.pojo.po.TItem" >
+	insert into t_item(companyCode, companyName, itemName,itemCode,specifications,unit,sku,weight,createTime)
+	values
+	<foreach collection="list" item="item" index="index" separator=",">  
+		(#{item.companycode}, #{item.companyname},
+   	 	 #{item.itemname},
+ 	  		#{item.itemcode},
+ 	  		#{item.specifications}, #{item.unit},
+    	 #{item.sku},
+    	 #{item.weight}, #{item.createtime} )
+    </foreach>  
+</insert>
+	
+  <select id="findAll" parameterType="com.zt.pojo.vo.ItemQueryVo" resultType="com.zt.pojo.po.ItemCustom">
+  	select * from t_item
+  	<include refid="whereItemCustom"/>
+  	<include refid="com.zt.dao.mapper.Common.pageQuery"/>
+  	
+  </select>
+  
+  <select id="count" parameterType="com.zt.pojo.vo.ItemQueryVo" resultType="int">
+  	select count(id) from t_item
+  	<include refid="whereItemCustom"/>
+  </select>
+  <select id="findByCode" parameterType="java.util.Map" resultType="com.zt.pojo.po.ItemCustom">
+  	select * from t_item
+  	where   itemCode='${code}' AND companyCode= #{companycode}
+  </select>
+  <select id="findBySkuAndName" parameterType="string" resultType="com.zt.pojo.po.ItemCustom">
+  	select * from t_item
+  	where  sku=#{sku}
+  </select>
+  <select id="findItem" parameterType="com.zt.pojo.po.TItem" resultType="int">
+  select count(1) from t_item where sku=#{sku} and itemCode = #{itemcode} and companyCode= #{companycode} and itemname = #{itemname}
+  </select>
+  
+  
+  
+</mapper>

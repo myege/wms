@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.BatchMapperCustom" >
+	<sql id="whereBatchCustom">
+		<if test="batchCustom!=null">
+			<where>
+				<if test="batchCustom.batchno!=null">
+					and batchNo like '%${batchCustom.batchno}%'
+				</if>	
+				<if test="batchCustom.isprint!=null">
+					and isPrint = ${batchCustom.isprint}
+				</if>	
+				<if test="batchCustom.ispick!=null">
+					and isPick = ${batchCustom.ispick}
+				</if>
+				<if test="batchCustom.isdeleted!=null">
+					and isDeleted = ${batchCustom.isdeleted}
+				</if>							
+			</where>
+		</if>
+	</sql>
+	
+	<select id="findAll" parameterType="com.zt.pojo.vo.BatchQueryVo" resultType="com.zt.pojo.po.BatchCustom">
+  	select * from t_order_batch
+  	<include refid="whereBatchCustom"/>
+  	order by id desc 
+  	<include refid="com.zt.dao.mapper.Common.pageQuery"/>
+  </select>
+  
+  <select id="count" parameterType="com.zt.pojo.vo.BatchQueryVo" resultType="int">
+  	select count(id) from t_order_batch
+  	<include refid="whereBatchCustom"/>
+  </select> 
+  
+</mapper>

@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.OrderMapperCustom" >
+	<sql id="whereOrderCustom">
+		<if test="orderCustom!=null">
+			<where>
+				<if test="orderCustom.orderno!=null">
+					and orderNo like '%${orderCustom.orderno}%'
+				</if>
+				<if test="orderCustom.mailno!=null">
+					and mailNo like '%${orderCustom.mailno}%'
+				</if>
+				<if test="orderCustom.companycode!=null">
+					and companyCode in(${orderCustom.companycode})
+				</if>
+				<if test="orderCustom.expresscode!=null">
+					and expressCode =#{orderCustom.expresscode}
+				</if>
+				<if test="orderCustom.receiveman!=null">
+					and receiveMan like '%${orderCustom.receiveman}%'
+				</if>
+				<if test="orderCustom.receivemanphone!=null">
+					and receiveManPhone = ${orderCustom.receivemanphone}
+				</if>
+				<if test="orderCustom.sendname!=null">
+					and sendName = ${orderCustom.sendname}
+				</if>
+				<if test="orderCustom.sendtel!=null">
+					and sendTel = ${orderCustom.sendtel}
+				</if>
+				<if test="orderCustom.orderstatus!=null">
+					and orderStatus = ${orderCustom.orderstatus}
+				</if>
+				<if test="orderCustom.orderstep!=null">
+					and orderStep = ${orderCustom.orderstep}
+				</if>	
+				<if test="orderCustom.startTime!=null">
+					and createTime &gt;= #{orderCustom.startTime}
+				</if>
+				<if test="orderCustom.endTime!=null">
+					and createTime &lt;= #{orderCustom.endTime}
+				</if>		
+				<if test="orderCustom.isdeleted!=null">
+					and isDeleted = ${orderCustom.isdeleted}
+				</if>
+				<if test="orderCustom.batchno!=null">
+					and batchNo = #{orderCustom.batchno}
+				</if>		
+				<if test="orderCustom.signstatus!=null">
+					and signStatus = #{orderCustom.signstatus}
+				</if>
+				<if test="orderCustom.bacthsku!=null">
+					and orderNo IN (SELECT orderNo FROM t_order_sku WHERE itemSku like '%${orderCustom.bacthsku}%' ) and 1=1
+				</if>	
+			</where>
+		</if>
+	</sql>
+  <select id="findAll" parameterType="com.zt.pojo.vo.OrderQueryVo" resultType="com.zt.pojo.po.OrderCustom">
+  	select id,
+  		orderno,
+  		mailno,
+  		companycode,
+  		(select companyName from t_company where companyCode = t.companycode and isDelete = 0 )companyName,
+  		receiveman,
+  		receivemanphone,
+  		receivemanaddress,
+  		receiveprovince,
+  		receivecity,
+  		receivecounty,
+  		sendname,
+  		sendtel,
+  		sendaddress,
+  		itemcount,
+  		itemname,
+  		expresscode,
+  		orderstatus,
+  		orderstep,
+  		batchno,
+  		weight,
+  		weighttime,
+  		weightuserid,
+  		createtime,
+  		isdeleted,
+  		signstatus,
+  		signdate,
+  		signprescription,
+  		logisticstrack,
+  		markdestination,
+  		billprovidesitename,
+  		billprovidesitecode,shipping,duihao,
+  		(select count(*) from t_order_sku where orderno=t.orderno and mailno=t.mailno) countSKU,
+  		(select sum(allprice) from t_order_sku where orderno=t.orderno and mailno=t.mailno) worth
+  	from t_order t
+  	<include refid="whereOrderCustom"/>
+  ORDER BY createTime DESC	, signstatus
+  	<include refid="com.zt.dao.mapper.Common.pageQuery"/>
+  </select>
+  
+  <select id="count" parameterType="com.zt.pojo.vo.OrderQueryVo" resultType="int">
+  	select count(id) from t_order
+  	<include refid="whereOrderCustom"/>
+  </select> 
+  
+    <select id="insertBatch" parameterType="com.zt.pojo.po.TOrder">
+  	    insert into t_order (id, orderNo, mailNo, 
+      companyCode, receiveMan, receiveManPhone, 
+      receiveManAddress, receiveProvince, receiveCity, 
+      receiveCounty, sendName, sendTel, 
+      sendAddress, itemCount, expressCode, 
+      orderStatus, orderStep, batchNo, 
+      weight, weightTime, weightUserId, 
+      createTime, isDeleted,itemName,markDestination,billProvideSiteName,billProvideSiteCode)
+    values 
+    <foreach collection="list" item="order" separator=",">
+	    (#{order.id,jdbcType=INTEGER}, #{order.orderno,jdbcType=VARCHAR}, #{order.mailno,jdbcType=VARCHAR}, 
+	      #{order.companycode,jdbcType=VARCHAR}, #{order.receiveman,jdbcType=VARCHAR}, #{order.receivemanphone,jdbcType=VARCHAR}, 
+	      #{order.receivemanaddress,jdbcType=VARCHAR}, #{order.receiveprovince,jdbcType=VARCHAR}, #{order.receivecity,jdbcType=VARCHAR}, 
+	      #{order.receivecounty,jdbcType=VARCHAR}, #{order.sendname,jdbcType=VARCHAR}, #{order.sendtel,jdbcType=VARCHAR}, 
+	      #{order.sendaddress,jdbcType=VARCHAR}, #{order.itemcount,jdbcType=INTEGER}, #{order.expresscode,jdbcType=VARCHAR}, 
+	      #{order.orderstatus,jdbcType=INTEGER}, #{order.orderstep,jdbcType=INTEGER}, #{order.batchno,jdbcType=VARCHAR}, 
+	      #{order.weight,jdbcType=INTEGER}, #{order.weighttime,jdbcType=TIMESTAMP}, #{order.weightuserid,jdbcType=INTEGER}, 
+	      #{order.createtime,jdbcType=TIMESTAMP}, #{order.isdeleted,jdbcType=INTEGER},#{order.itemname,jdbcType=VARCHAR}, 
+	      #{order.markdestination,jdbcType=VARCHAR}, #{order.billprovidesitename,jdbcType=VARCHAR}, 
+      	  #{order.billprovidesitecode,jdbcType=VARCHAR})
+     </foreach>
+  </select>
+  
+  <!--根据波次查询  -->
+	 <select id="findByBatchNo" parameterType="string" resultType="com.zt.pojo.po.TOrder">
+	 	select * from t_order where batchno=#{batchno} order by itemName desc
+	 </select>
+	  <select id="findByMailno" parameterType="string" resultType="com.zt.pojo.po.TOrder">
+	 	select * from t_order where mailNo=#{mailNo}
+	 </select>
+	 
+	   <select id="findByMailnos" parameterType="string" resultType="com.zt.pojo.po.TOrder">
+	 	select * from t_order where mailNo in <foreach collection="array" item="item" separator="," open="(" close=")">#{item}</foreach>
+		
+	 </select>
+	 
+	<!--  <select id="findByBatchNo2" parameterType="string" resultType="com.zt.pojo.po.TOrder">
+	 	select id,
+  		orderno,
+  		mailno,
+  		companycode,
+  		receiveman,
+  		receivemanphone,
+  		receivemanaddress,
+  		receiveprovince,
+  		receivecity,
+  		receivecounty,
+  		(select sendName from t_company where companyCode = companycode)sendname,
+  		(select sendPhone from t_company where companyCode = companycode)sendtel,
+  		(select sendAddress from t_company where companyCode = companycode)sendaddress,
+  		itemcount,
+  		expresscode,
+  		orderstatus,
+  		orderstep,
+  		batchno,
+  		weight,
+  		weighttime,
+  		weightuserid,
+  		createtime,
+  		isdeleted,
+  		signstatus,
+  		signdate,
+  		signprescription,
+  		logisticstrack,
+  		markdestination,
+  		billprovidesitename,
+  		billprovidesitecode from t_order where batchno=#{batchno}
+	 </select> -->
+	 <!--报表  -->
+   <!--      <select id="findByYear"  parameterType="com.zt.pojo.vo.OrderReportQueryVo" resultType="com.zt.pojo.vo.OrderReportQueryVo">
+       SELECT COUNT(orderNo) as ordercount,DAY(createTime) as orderday FROM t_order WHERE YEAR(createTime)=#{orderyear}
+        AND MONTH(createTime)=#{ordermonth} GROUP BY DAY(createTime)
+	 </select>  -->
+	 
+<select id="findByYear" resultType="com.zt.pojo.vo.OrderReportQueryVo">
+	      SELECT COUNT(orderNo) as ordercount,DAY(createTime) as orderday from t_order
+	          <where>
+	            <if test="orderyear!=null">
+	                and year(createTime)=#{orderyear}
+	            </if>
+	             <if test="orderCustom.companycode !=null">
+	                and companycode=#{orderCustom.companycode}
+	            </if>
+	            <if test="ordermonth!=null">
+	               and month(createTime)=#{ordermonth}
+	            </if>
+	            <if test="orderCustom.expresscode!=null">
+	                and expresscode =#{orderCustom.expresscode}
+	            </if>
+	          </where>
+	      group by day(createTime)
+	 </select>
+	 
+	 <select id="findOrder" resultType="com.zt.pojo.po.TOrder">
+	      SELECT * from t_order
+	          <where>
+	            <if test="orderyear!=null">
+	                and year(createTime)=#{orderyear}
+	            </if>
+	            <if test="ordermonth!=null">
+	               and month(createTime)=#{ordermonth}
+	            </if>
+	            <if test="orderCustom.expresscode!=null">
+	                and expresscode =#{orderCustom.expresscode}
+	            </if>
+	          </where>
+	 </select>
+	 
+	 <select id="findOrderSku" resultType="com.zt.pojo.po.TOrderSku">
+	   select * from t_order_sku where orderno=#{orderno}
+	 </select>
+	 
+	 <select id="findOrderSku2" resultType="com.zt.pojo.po.TOrderSku">
+	   select * from t_order_sku where mailno=#{orderno}  and itemCount=1  
+	 </select>
+	<!--  <select id="findEnd" parameterType="com.zt.pojo.vo.OrderReportQueryVo" resultType="com.zt.pojo.vo.OrderReportQueryVo">
+	 	 SELECT COUNT(orderNo) as endordercount,DAY(createTime) as orderday FROM t_order WHERE YEAR(createTime)=#{orderyear}
+        AND MONTH(createTime)=#{ordermonth} and orderstep=9 GROUP BY DAY(createTime)
+	 </select> -->
+	 	 <select id="findEnd" resultType="com.zt.pojo.vo.OrderReportQueryVo">
+	      SELECT COUNT(orderNo) as endordercount,DAY(createTime) as orderday from t_order where orderstep=9
+	            <if test="orderyear!=null">
+	                and year(createTime)=#{orderyear}
+	            </if>
+	            <if test="orderCustom.companycode !=null">
+	                and companycode=#{orderCustom.companycode}
+	            </if>
+	            
+	            <if test="ordermonth!=null">
+	               and month(createTime)=#{ordermonth}
+	            </if>
+	            <if test="orderCustom.expresscode!=null">
+	                and expresscode =#{orderCustom.expresscode}
+	            </if>
+	      group by day(createTime)
+	 </select>
+	 <select id="countByYear" parameterType="Integer"  resultType="int">
+	    select count(orderNo) from t_order where YEAR(createTime)=#{orderyear}
+        AND MONTH(createTime)=#{ordermonth} 
+        <if test="orderCustom.companycode !=null">
+          and   companycode=#{orderCustom.companycode}
+        </if>
+	 </select>
+	 	 <select id="countByEnd" parameterType="Integer"  resultType="int">
+	    select count(orderNo) from t_order where YEAR(createTime)=#{orderyear}
+        AND MONTH(createTime)=#{ordermonth} and orderstep=9
+        <if test="orderCustom.companycode !=null">
+            and companycode=#{orderCustom.companycode}
+        </if>
+	 </select>
+	 <!-- 批量修改 -->
+	 <update id="updateOrders" parameterType="com.zt.pojo.po.TOrder">
+	 <foreach collection="list" item="order" > 
+	 	 update t_order  
+  			 set 
+	  weight=#{order.weight},
+	  orderStep=#{order.orderstep},
+	  fuheDate=now()
+	  where mailno = #{order.mailno};
+	  </foreach>
+	  </update>
+	  <!-- 批量修改3 -->
+	 <update id="updateOrders3" parameterType="com.zt.pojo.po.TOrder">
+	
+	 	 update t_order  
+  			 set 
+	  orderStep=#{orderStep}
+	  where mailno in ( #{mailno}) ;
+	  
+	 </update>
+	 
+	  <update id="updateOrders1" parameterType="com.zt.pojo.po.TOrder">
+	  update t_order  
+  			 set 
+	  weight=#{weight}
+	  where mailno = #{mailno};
+	  </update>
+	 
+<select id="findByMailnoShipping" parameterType="string" resultType="com.zt.pojo.po.TOrder">
+	select * from t_order where mailNo=#{mailNo} and orderStep = 9
+</select>
+	 
+	 
+ 	 <!-- 运单号查询 -->
+	 <select id="findByMailnoArray" parameterType="string" resultType="com.zt.pojo.po.TOrder">
+	 	select * from t_order
+	 	<where> 
+	 		mailno in
+		 	<foreach collection="array" item="mailno" separator="," open="(" close=")"> 
+		 	#{mailno} 
+		 	</foreach>
+	 	</where>
+	 </select> 
+	 
+	 <!-- 快速出库订单效验 -->
+	 <select id="findByMailnoKS" parameterType="string" resultType="string">
+	 select mailno from t_order
+	 where mailno in
+      	<foreach collection="list" item="mailno"  separator="," open="(" close=")">
+			#{mailno}
+      	</foreach>
+      		and orderStep = 3
+	 </select>
+	 
+ <update id="updateBatch" parameterType="com.zt.pojo.po.TOrder">
+	 	 update t_order  
+  			 set 
+	  orderStep=3
+	   where  batchno in
+	 <foreach collection="list" item="order" open="(" close=")" separator=","> 
+	 #{order.batchno}
+	</foreach>
+</update>
+
+<!-- 查询运单号 -->
+	 <select id="findBySign" resultType="com.zt.pojo.po.TOrder">
+	    select mailno from t_order where signstatus=0
+	 </select>
+	 
+	 <select id="getMailBill" resultType="String">
+	     select logisticsTrack from t_order where mailno=#{mailno}
+	 </select>
+	 
+	 <update id="updateSign">
+	 update t_order set signstatus=1,signdate=#{signdate},signprescription=#{signprescription},logisticstrack=#{logisticstrack} where mailno=#{mailno}
+	 </update>
+	 
+	 <update id="updateLog">
+	  update t_order set logisticstrack=#{logisticstrack} where mailno=#{mailno}
+	 </update>
+	 
+	 <select id="findByIdAll" parameterType="int" resultType="com.zt.pojo.po.TOrder">
+	 	select * from t_order 
+	 	   where  id in
+	 <foreach collection="array" item="id" open="(" close=")" separator=","> 
+	 #{id}
+	</foreach>
+	 </select>
+	 
+ <update id="updateStep">
+  <foreach collection="list" item="item"  separator=";"> 
+  update t_order set Orderstatus=#{item.orderstatus},batchNo = #{item.batchno},orderStep = -1 where id=#{item.id}
+	</foreach>
+ </update>
+	 
+<select id="outOrder" parameterType="com.zt.pojo.vo.OrderQueryVo" resultType="map">
+	 SELECT   b.*,a.*   FROM   t_order a   LEFT   JOIN   t_order_sku b     ON   a.MailNo=b.MailNo  
+	<include refid="whereOrderCustom1"/>
+</select>
+	 <select id="outOrderByID"  resultType="map">
+	 SELECT   b.*,a.*   FROM   t_order a   LEFT   JOIN   t_order_sku b     ON   a.MailNo=b.MailNo  
+	where a.id in 
+	<foreach collection="array" item="item" open="(" close=")" separator=","> #{item}</foreach>
+</select>
+	 
+	<select id="findTotalPickOrder" parameterType="com.zt.pojo.po.TOrderBatchPickList" resultType="com.zt.pojo.po.TOrder">
+		select * from t_order where mailNo in (select mailNo from t_order_batch_pick_list where batchNo = #{batchno} and pickStorageLocation = #{pickstoragelocation} and itemCode = #{itemcode}) order by mailNo
+	</select>
+<sql id="whereOrderCustom1">
+	<if test="orderCustom!=null">
+		<where>
+			<if test="orderCustom.orderno!=null">
+				and a.orderNo like '%${orderCustom.orderno}%'
+			</if>
+			<if test="orderCustom.mailno!=null">
+				and a.mailNo like '%${orderCustom.mailno}%'
+			</if>
+			<if test="orderCustom.companycode!=null">
+				and a.companyCode in(${orderCustom.companycode})
+			</if>
+			<if test="orderCustom.expresscode!=null">
+				and a.expressCode =#{orderCustom.expresscode}
+			</if>
+			<if test="orderCustom.receiveman!=null">
+				and a.receiveMan like '%${orderCustom.receiveman}%'
+			</if>
+			<if test="orderCustom.receivemanphone!=null">
+				and a.receiveManPhone = ${orderCustom.receivemanphone}
+			</if>
+			<if test="orderCustom.sendname!=null">
+				and a.sendName = ${orderCustom.sendname}
+			</if>
+			<if test="orderCustom.sendtel!=null">
+				and a.sendTel = ${orderCustom.sendtel}
+			</if>
+			<if test="orderCustom.orderstatus!=null">
+				and a.orderStatus = ${orderCustom.orderstatus}
+			</if>
+			<if test="orderCustom.orderstep!=null">
+				and a.orderStep = ${orderCustom.orderstep}
+			</if>	
+			<if test="orderCustom.startTime!=null">
+				and a.createTime &gt;= #{orderCustom.startTime}
+			</if>
+			<if test="orderCustom.endTime!=null">
+				and a.createTime &lt;= #{orderCustom.endTime}
+			</if>		
+			<if test="orderCustom.isdeleted!=null">
+				and a.isDeleted = ${orderCustom.isdeleted}
+			</if>
+			<if test="orderCustom.batchno!=null">
+				and a.batchNo = #{orderCustom.batchno}
+			</if>		
+			<if test="orderCustom.signstatus!=null">
+				and a.signStatus = #{orderCustom.signstatus}
+			</if>		
+		</where>
+	</if>
+</sql>
+<select id="importorderStep" parameterType="string" statementType="STATEMENT" resultType="java.util.HashMap">
+select mailNo,(CASE 
+WHEN orderStatus =1  THEN "取消订单"
+WHEN orderStep !=9  THEN "未出库" 
+ELSE "已出库" END)orderStep from t_order where mailno in(${value});
+</select>
+<select id="findMailNull" parameterType="string"  resultType="string">
+	select mailNo from t_order where mailno  in (${value});
+</select>
+
+
+</mapper>

@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.TExperssPriceMapper" >
+  <resultMap id="BaseResultMap" type="com.zt.pojo.po.TExperssPrice" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="expressno" property="expressno" jdbcType="VARCHAR" />
+    <result column="bourn" property="bourn" jdbcType="VARCHAR" />
+    <result column="initial" property="initial" jdbcType="VARCHAR" />
+    <result column="maxweight" property="maxweight" jdbcType="VARCHAR" />
+    <result column="minweight" property="minweight" jdbcType="VARCHAR" />
+    <result column="maxnext" property="maxnext" jdbcType="VARCHAR" />
+    <result column="minnext" property="minnext" jdbcType="VARCHAR" />
+    <result column="aging" property="aging" jdbcType="VARCHAR" />
+    <result column="istax" property="istax" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="bournBy" property="bournby" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, expressno, bourn, initial, maxweight, minweight, maxnext, minnext, aging, istax, 
+    type, bournBy
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zt.pojo.po.TExperssPriceExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_experss_price
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_experss_price
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_experss_price
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zt.pojo.po.TExperssPriceExample" >
+    delete from t_experss_price
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zt.pojo.po.TExperssPrice" >
+    insert into t_experss_price (id, expressno, bourn, 
+      initial, maxweight, minweight, 
+      maxnext, minnext, aging, 
+      istax, type, bournBy
+      )
+    values (#{id,jdbcType=INTEGER}, #{expressno,jdbcType=VARCHAR}, #{bourn,jdbcType=VARCHAR}, 
+      #{initial,jdbcType=VARCHAR}, #{maxweight,jdbcType=VARCHAR}, #{minweight,jdbcType=VARCHAR}, 
+      #{maxnext,jdbcType=VARCHAR}, #{minnext,jdbcType=VARCHAR}, #{aging,jdbcType=VARCHAR}, 
+      #{istax,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{bournby,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zt.pojo.po.TExperssPrice" >
+    insert into t_experss_price
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="expressno != null" >
+        expressno,
+      </if>
+      <if test="bourn != null" >
+        bourn,
+      </if>
+      <if test="initial != null" >
+        initial,
+      </if>
+      <if test="maxweight != null" >
+        maxweight,
+      </if>
+      <if test="minweight != null" >
+        minweight,
+      </if>
+      <if test="maxnext != null" >
+        maxnext,
+      </if>
+      <if test="minnext != null" >
+        minnext,
+      </if>
+      <if test="aging != null" >
+        aging,
+      </if>
+      <if test="istax != null" >
+        istax,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="bournby != null" >
+        bournBy,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="expressno != null" >
+        #{expressno,jdbcType=VARCHAR},
+      </if>
+      <if test="bourn != null" >
+        #{bourn,jdbcType=VARCHAR},
+      </if>
+      <if test="initial != null" >
+        #{initial,jdbcType=VARCHAR},
+      </if>
+      <if test="maxweight != null" >
+        #{maxweight,jdbcType=VARCHAR},
+      </if>
+      <if test="minweight != null" >
+        #{minweight,jdbcType=VARCHAR},
+      </if>
+      <if test="maxnext != null" >
+        #{maxnext,jdbcType=VARCHAR},
+      </if>
+      <if test="minnext != null" >
+        #{minnext,jdbcType=VARCHAR},
+      </if>
+      <if test="aging != null" >
+        #{aging,jdbcType=VARCHAR},
+      </if>
+      <if test="istax != null" >
+        #{istax,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="bournby != null" >
+        #{bournby,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zt.pojo.po.TExperssPriceExample" resultType="java.lang.Integer" >
+    select count(*) from t_experss_price
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_experss_price
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.expressno != null" >
+        expressno = #{record.expressno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bourn != null" >
+        bourn = #{record.bourn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.initial != null" >
+        initial = #{record.initial,jdbcType=VARCHAR},
+      </if>
+      <if test="record.maxweight != null" >
+        maxweight = #{record.maxweight,jdbcType=VARCHAR},
+      </if>
+      <if test="record.minweight != null" >
+        minweight = #{record.minweight,jdbcType=VARCHAR},
+      </if>
+      <if test="record.maxnext != null" >
+        maxnext = #{record.maxnext,jdbcType=VARCHAR},
+      </if>
+      <if test="record.minnext != null" >
+        minnext = #{record.minnext,jdbcType=VARCHAR},
+      </if>
+      <if test="record.aging != null" >
+        aging = #{record.aging,jdbcType=VARCHAR},
+      </if>
+      <if test="record.istax != null" >
+        istax = #{record.istax,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.bournby != null" >
+        bournBy = #{record.bournby,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_experss_price
+    set id = #{record.id,jdbcType=INTEGER},
+      expressno = #{record.expressno,jdbcType=VARCHAR},
+      bourn = #{record.bourn,jdbcType=VARCHAR},
+      initial = #{record.initial,jdbcType=VARCHAR},
+      maxweight = #{record.maxweight,jdbcType=VARCHAR},
+      minweight = #{record.minweight,jdbcType=VARCHAR},
+      maxnext = #{record.maxnext,jdbcType=VARCHAR},
+      minnext = #{record.minnext,jdbcType=VARCHAR},
+      aging = #{record.aging,jdbcType=VARCHAR},
+      istax = #{record.istax,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=INTEGER},
+      bournBy = #{record.bournby,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zt.pojo.po.TExperssPrice" >
+    update t_experss_price
+    <set >
+      <if test="expressno != null" >
+        expressno = #{expressno,jdbcType=VARCHAR},
+      </if>
+      <if test="bourn != null" >
+        bourn = #{bourn,jdbcType=VARCHAR},
+      </if>
+      <if test="initial != null" >
+        initial = #{initial,jdbcType=VARCHAR},
+      </if>
+      <if test="maxweight != null" >
+        maxweight = #{maxweight,jdbcType=VARCHAR},
+      </if>
+      <if test="minweight != null" >
+        minweight = #{minweight,jdbcType=VARCHAR},
+      </if>
+      <if test="maxnext != null" >
+        maxnext = #{maxnext,jdbcType=VARCHAR},
+      </if>
+      <if test="minnext != null" >
+        minnext = #{minnext,jdbcType=VARCHAR},
+      </if>
+      <if test="aging != null" >
+        aging = #{aging,jdbcType=VARCHAR},
+      </if>
+      <if test="istax != null" >
+        istax = #{istax,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="bournby != null" >
+        bournBy = #{bournby,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zt.pojo.po.TExperssPrice" >
+    update t_experss_price
+    set expressno = #{expressno,jdbcType=VARCHAR},
+      bourn = #{bourn,jdbcType=VARCHAR},
+      initial = #{initial,jdbcType=VARCHAR},
+      maxweight = #{maxweight,jdbcType=VARCHAR},
+      minweight = #{minweight,jdbcType=VARCHAR},
+      maxnext = #{maxnext,jdbcType=VARCHAR},
+      minnext = #{minnext,jdbcType=VARCHAR},
+      aging = #{aging,jdbcType=VARCHAR},
+      istax = #{istax,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      bournBy = #{bournby,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

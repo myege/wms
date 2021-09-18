@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.ExperssPriceMapperCustom" >
+<sql id="wherePriceCustom">
+		<if test="experssPrice!=null">
+			<where>1=1
+				<if test="experssPrice.expressno!=null">
+					and expressno like '%${experssPrice.expressno}%'
+				</if>
+				<if test="experssPrice.bourn!=null">
+					and bourn like '%${experssPrice.bourn}%'
+				</if>
+			</where>
+		</if>
+	</sql>
+	<select id="findAll" parameterType="com.zt.pojo.vo.ExperssPriceQueryVo" resultType="com.zt.pojo.po.TExperssPrice">
+		select * from t_experss_price
+	 	<include refid="wherePriceCustom"/> 
+		<include refid="com.zt.dao.mapper.Common.pageQuery"/>
+	</select>
+  
+	<select id="count" parameterType="com.zt.pojo.vo.ExperssPriceQueryVo" resultType="int">
+		select count(id) from t_experss_price
+			<include refid="wherePriceCustom"/> 
+	</select>
+  
+  	<insert id="insertPrice" >
+  	 insert into t_experss_price (id, expressno, bourn, 
+      initial, maxweight, minweight, 
+      maxnext, minnext, aging, 
+      istax, type,bournby)values
+	<foreach collection="list" item="exper" separator=",">
+	(#{exper.id,jdbcType=INTEGER}, #{exper.expressno,jdbcType=VARCHAR}, #{exper.bourn,jdbcType=VARCHAR}, 
+      #{exper.initial,jdbcType=VARCHAR}, #{exper.maxweight,jdbcType=VARCHAR}, #{exper.minweight,jdbcType=VARCHAR}, 
+      #{exper.maxnext,jdbcType=VARCHAR}, #{exper.minnext,jdbcType=VARCHAR}, #{exper.aging,jdbcType=VARCHAR}, 
+      #{exper.istax,jdbcType=VARCHAR}, #{exper.type,jdbcType=INTEGER},#{exper.bournby,jdbcType=INTEGER})
+ 	</foreach>
+  	</insert>
+  
+  </mapper>

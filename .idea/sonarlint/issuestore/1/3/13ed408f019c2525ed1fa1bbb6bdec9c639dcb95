@@ -1,0 +1,73 @@
+
+]
+java:S2259å"FA "NullPointerException" could be thrown; "shiftNum" is nullable here.(ÚåÔõ
+_
+java:S2259¢"IA "NullPointerException" could be thrown; "transferNum" is nullable here.(¥šûs
+K
+java:S1191!"5Use classes from the Java API instead of Sun classes.(¦ğÙü
+;
+java:S1659ˆ"Declare "i" on a separate line.(¨áÑÒùÿÿÿÿ
+O	java:S106¢"9Replace this use of System.out or System.err by a logger.(Û€‘ë
+\
+java:S2259Å"EA "NullPointerException" could be thrown; "freeNum" is nullable here.(ŞÀŒ÷
+U
+java:S4719§"9Replace charset name argument with StandardCharsets.UTF_8(Çî¸Œúÿÿÿÿ
+o
+java:S1192u"TDefine a constant instead of duplicating this literal "ï¼›åŸæœ‰åº“å­˜ï¼š" 10 times.(œ¿‹ãûÿÿÿÿ
+r
+java:S2159¯"VRemove this call to "equals"; comparisons between unrelated types always return false.(ÒÛÃƒúÿÿÿÿ
+u
+java:S2293ƒ"YReplace the type specification in this constructor call with the diamond operator ("<>").(âğ¤Ëüÿÿÿÿ
+g
+java:S2259Ğ"KA "NullPointerException" could be thrown; "res_inventory" is nullable here.(¸ÌÃÀÿÿÿÿÿ
+J
+java:S1121‰".Extract the assignment out of this expression.(Šó¹¨ùÿÿÿÿ
+k
+java:S1192v"PDefine a constant instead of duplicating this literal "ï¼›åŸå†»çµï¼š" 4 times.(ºÑÖ„şÿÿÿÿ
+Y
+java:S2259º"BA "NullPointerException" could be thrown; "code" is nullable here.(–÷İ
+g	java:S117…"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÊÃ£Ê
+a
+java:S2259Ì"JA "NullPointerException" could be thrown; "defectiveNum" is nullable here.(î’Ûù
+a
+java:S1155¨">Use isEmpty() to check whether the collection is empty or not.(ç¿À‰ûÿÿÿÿ8ƒÓÑÆ¾/
+{
+java:S1149¨"_Replace the synchronized class "StringBuffer" by an unsynchronized one such as "StringBuilder".(Á‚Ëøÿÿÿÿ
+n
+java:S3776‚"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(”‘Ûøÿÿÿÿ
+u
+java:S2293„"YReplace the type specification in this constructor call with the diamond operator ("<>").(‹Æ”•şÿÿÿÿ
+8	java:S131º""Add a default case to this switch.(–÷İ
+\
+java:S2259Î"EA "NullPointerException" could be thrown; "freeNum" is nullable here.(ş·µ
+u
+java:S2293¬"YReplace the type specification in this constructor call with the diamond operator ("<>").(ÉŒš ûÿÿÿÿ
+o
+java:S1192u"TDefine a constant instead of duplicating this literal "ï¼›å•†å“æ¡ç ï¼š" 11 times.(œ¿‹ãûÿÿÿÿ
+o
+java:S1192S"TDefine a constant instead of duplicating this literal "resources.messages" 23 times.(ŠĞ¹áøÿÿÿÿ
+l	java:S117¡"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÇŠıäúÿÿÿÿ
+p
+java:S2293À"YReplace the type specification in this constructor call with the diamond operator ("<>").(¥°Ğ÷
+D
+java:S1659ˆ"(Declare "arrayOfInt" on a separate line.(¨áÑÒùÿÿÿÿ
+T
+java:S1197ˆ"8Move the array designator from the variable to the type.(¨áÑÒùÿÿÿÿ
+T	java:S106©"9Replace this use of System.out or System.err by a logger.(÷»ªùÿÿÿÿ
+p
+java:S2293…"YReplace the type specification in this constructor call with the diamond operator ("<>").(ÊÃ£Ê
+n
+java:S3776†"RRefactor this method to reduce its Cognitive Complexity from 17 to the 15 allowed.(‡‡Ì¥ùÿÿÿÿ
+o
+java:S1192v"TDefine a constant instead of duplicating this literal "ï¼›ç°æœ‰åº“å­˜ï¼š" 10 times.(ºÑÖ„şÿÿÿÿ
+l	java:S117 "QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(˜ò”öüÿÿÿÿ
+^
+java:S2259\"HA "NullPointerException" could be thrown; "fronzenNum" is nullable here.(ã¶ å
+;
+java:S1659ˆ"Declare "b" on a separate line.(¨áÑÒùÿÿÿÿ
+k
+java:S1192v"PDefine a constant instead of duplicating this literal "ï¼›ç°å†»ç»“ï¼š" 4 times.(ºÑÖ„şÿÿÿÿ
+\
+java:S2259¼"EA "NullPointerException" could be thrown; "freeNum" is nullable here.(Óúë†
+l
+java:S1192u"QDefine a constant instead of duplicating this literal "å•†å®¶ç¼–ç ï¼š" 11 times.(œ¿‹ãûÿÿÿÿ

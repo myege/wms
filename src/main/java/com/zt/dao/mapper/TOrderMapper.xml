@@ -1,0 +1,670 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.TOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.zt.pojo.po.TOrder" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="orderNo" property="orderno" jdbcType="VARCHAR" />
+    <result column="mailNo" property="mailno" jdbcType="VARCHAR" />
+    <result column="companyCode" property="companycode" jdbcType="VARCHAR" />
+    <result column="receiveMan" property="receiveman" jdbcType="VARCHAR" />
+    <result column="receiveManPhone" property="receivemanphone" jdbcType="VARCHAR" />
+    <result column="receiveManAddress" property="receivemanaddress" jdbcType="VARCHAR" />
+    <result column="receiveProvince" property="receiveprovince" jdbcType="VARCHAR" />
+    <result column="receiveCity" property="receivecity" jdbcType="VARCHAR" />
+    <result column="receiveCounty" property="receivecounty" jdbcType="VARCHAR" />
+    <result column="sendName" property="sendname" jdbcType="VARCHAR" />
+    <result column="sendTel" property="sendtel" jdbcType="VARCHAR" />
+    <result column="sendAddress" property="sendaddress" jdbcType="VARCHAR" />
+    <result column="itemCount" property="itemcount" jdbcType="INTEGER" />
+    <result column="expressCode" property="expresscode" jdbcType="VARCHAR" />
+    <result column="orderStatus" property="orderstatus" jdbcType="INTEGER" />
+    <result column="orderStep" property="orderstep" jdbcType="INTEGER" />
+    <result column="batchNo" property="batchno" jdbcType="VARCHAR" />
+    <result column="weight" property="weight" jdbcType="VARCHAR" />
+    <result column="weightTime" property="weighttime" jdbcType="TIMESTAMP" />
+    <result column="weightUserId" property="weightuserid" jdbcType="INTEGER" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="isDeleted" property="isdeleted" jdbcType="INTEGER" />
+    <result column="itemName" property="itemname" jdbcType="VARCHAR" />
+    <result column="signStatus" property="signstatus" jdbcType="INTEGER" />
+    <result column="signDate" property="signdate" jdbcType="TIMESTAMP" />
+    <result column="signPrescription" property="signprescription" jdbcType="VARCHAR" />
+    <result column="logisticsTrack" property="logisticstrack" jdbcType="VARCHAR" />
+    <result column="markDestination" property="markdestination" jdbcType="VARCHAR" />
+    <result column="billProvideSiteName" property="billprovidesitename" jdbcType="VARCHAR" />
+    <result column="billProvideSiteCode" property="billprovidesitecode" jdbcType="VARCHAR" />
+    <result column="isclosing" property="isclosing" jdbcType="INTEGER" />
+    <result column="shipping" property="shipping" jdbcType="INTEGER" />
+    <result column="duihao" property="duihao" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, orderNo, mailNo, companyCode, receiveMan, receiveManPhone, receiveManAddress, 
+    receiveProvince, receiveCity, receiveCounty, sendName, sendTel, sendAddress, itemCount, 
+    expressCode, orderStatus, orderStep, batchNo, weight, weightTime, weightUserId, createTime, 
+    isDeleted, itemName, signStatus, signDate, signPrescription, logisticsTrack, markDestination, 
+    billProvideSiteName, billProvideSiteCode, isclosing, shipping, duihao
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zt.pojo.po.TOrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zt.pojo.po.TOrderExample" >
+    delete from t_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zt.pojo.po.TOrder" >
+    insert into t_order (id, orderNo, mailNo, 
+      companyCode, receiveMan, receiveManPhone, 
+      receiveManAddress, receiveProvince, receiveCity, 
+      receiveCounty, sendName, sendTel, 
+      sendAddress, itemCount, expressCode, 
+      orderStatus, orderStep, batchNo, 
+      weight, weightTime, weightUserId, 
+      createTime, isDeleted, itemName, 
+      signStatus, signDate, signPrescription, 
+      logisticsTrack, markDestination, billProvideSiteName, 
+      billProvideSiteCode, isclosing, shipping, 
+      duihao)
+    values (#{id,jdbcType=INTEGER}, #{orderno,jdbcType=VARCHAR}, #{mailno,jdbcType=VARCHAR}, 
+      #{companycode,jdbcType=VARCHAR}, #{receiveman,jdbcType=VARCHAR}, #{receivemanphone,jdbcType=VARCHAR}, 
+      #{receivemanaddress,jdbcType=VARCHAR}, #{receiveprovince,jdbcType=VARCHAR}, #{receivecity,jdbcType=VARCHAR}, 
+      #{receivecounty,jdbcType=VARCHAR}, #{sendname,jdbcType=VARCHAR}, #{sendtel,jdbcType=VARCHAR}, 
+      #{sendaddress,jdbcType=VARCHAR}, #{itemcount,jdbcType=INTEGER}, #{expresscode,jdbcType=VARCHAR}, 
+      #{orderstatus,jdbcType=INTEGER}, #{orderstep,jdbcType=INTEGER}, #{batchno,jdbcType=VARCHAR}, 
+      #{weight,jdbcType=VARCHAR}, #{weighttime,jdbcType=TIMESTAMP}, #{weightuserid,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{isdeleted,jdbcType=INTEGER}, #{itemname,jdbcType=VARCHAR}, 
+      #{signstatus,jdbcType=INTEGER}, #{signdate,jdbcType=TIMESTAMP}, #{signprescription,jdbcType=VARCHAR}, 
+      #{logisticstrack,jdbcType=VARCHAR}, #{markdestination,jdbcType=VARCHAR}, #{billprovidesitename,jdbcType=VARCHAR}, 
+      #{billprovidesitecode,jdbcType=VARCHAR}, #{isclosing,jdbcType=INTEGER}, #{shipping,jdbcType=INTEGER}, 
+      #{duihao,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zt.pojo.po.TOrder" >
+    insert into t_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderno != null" >
+        orderNo,
+      </if>
+      <if test="mailno != null" >
+        mailNo,
+      </if>
+      <if test="companycode != null" >
+        companyCode,
+      </if>
+      <if test="receiveman != null" >
+        receiveMan,
+      </if>
+      <if test="receivemanphone != null" >
+        receiveManPhone,
+      </if>
+      <if test="receivemanaddress != null" >
+        receiveManAddress,
+      </if>
+      <if test="receiveprovince != null" >
+        receiveProvince,
+      </if>
+      <if test="receivecity != null" >
+        receiveCity,
+      </if>
+      <if test="receivecounty != null" >
+        receiveCounty,
+      </if>
+      <if test="sendname != null" >
+        sendName,
+      </if>
+      <if test="sendtel != null" >
+        sendTel,
+      </if>
+      <if test="sendaddress != null" >
+        sendAddress,
+      </if>
+      <if test="itemcount != null" >
+        itemCount,
+      </if>
+      <if test="expresscode != null" >
+        expressCode,
+      </if>
+      <if test="orderstatus != null" >
+        orderStatus,
+      </if>
+      <if test="orderstep != null" >
+        orderStep,
+      </if>
+      <if test="batchno != null" >
+        batchNo,
+      </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="weighttime != null" >
+        weightTime,
+      </if>
+      <if test="weightuserid != null" >
+        weightUserId,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="isdeleted != null" >
+        isDeleted,
+      </if>
+      <if test="itemname != null" >
+        itemName,
+      </if>
+      <if test="signstatus != null" >
+        signStatus,
+      </if>
+      <if test="signdate != null" >
+        signDate,
+      </if>
+      <if test="signprescription != null" >
+        signPrescription,
+      </if>
+      <if test="logisticstrack != null" >
+        logisticsTrack,
+      </if>
+      <if test="markdestination != null" >
+        markDestination,
+      </if>
+      <if test="billprovidesitename != null" >
+        billProvideSiteName,
+      </if>
+      <if test="billprovidesitecode != null" >
+        billProvideSiteCode,
+      </if>
+      <if test="isclosing != null" >
+        isclosing,
+      </if>
+      <if test="shipping != null" >
+        shipping,
+      </if>
+      <if test="duihao != null" >
+        duihao,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderno != null" >
+        #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="mailno != null" >
+        #{mailno,jdbcType=VARCHAR},
+      </if>
+      <if test="companycode != null" >
+        #{companycode,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveman != null" >
+        #{receiveman,jdbcType=VARCHAR},
+      </if>
+      <if test="receivemanphone != null" >
+        #{receivemanphone,jdbcType=VARCHAR},
+      </if>
+      <if test="receivemanaddress != null" >
+        #{receivemanaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveprovince != null" >
+        #{receiveprovince,jdbcType=VARCHAR},
+      </if>
+      <if test="receivecity != null" >
+        #{receivecity,jdbcType=VARCHAR},
+      </if>
+      <if test="receivecounty != null" >
+        #{receivecounty,jdbcType=VARCHAR},
+      </if>
+      <if test="sendname != null" >
+        #{sendname,jdbcType=VARCHAR},
+      </if>
+      <if test="sendtel != null" >
+        #{sendtel,jdbcType=VARCHAR},
+      </if>
+      <if test="sendaddress != null" >
+        #{sendaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="itemcount != null" >
+        #{itemcount,jdbcType=INTEGER},
+      </if>
+      <if test="expresscode != null" >
+        #{expresscode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderstatus != null" >
+        #{orderstatus,jdbcType=INTEGER},
+      </if>
+      <if test="orderstep != null" >
+        #{orderstep,jdbcType=INTEGER},
+      </if>
+      <if test="batchno != null" >
+        #{batchno,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=VARCHAR},
+      </if>
+      <if test="weighttime != null" >
+        #{weighttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="weightuserid != null" >
+        #{weightuserid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isdeleted != null" >
+        #{isdeleted,jdbcType=INTEGER},
+      </if>
+      <if test="itemname != null" >
+        #{itemname,jdbcType=VARCHAR},
+      </if>
+      <if test="signstatus != null" >
+        #{signstatus,jdbcType=INTEGER},
+      </if>
+      <if test="signdate != null" >
+        #{signdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signprescription != null" >
+        #{signprescription,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticstrack != null" >
+        #{logisticstrack,jdbcType=VARCHAR},
+      </if>
+      <if test="markdestination != null" >
+        #{markdestination,jdbcType=VARCHAR},
+      </if>
+      <if test="billprovidesitename != null" >
+        #{billprovidesitename,jdbcType=VARCHAR},
+      </if>
+      <if test="billprovidesitecode != null" >
+        #{billprovidesitecode,jdbcType=VARCHAR},
+      </if>
+      <if test="isclosing != null" >
+        #{isclosing,jdbcType=INTEGER},
+      </if>
+      <if test="shipping != null" >
+        #{shipping,jdbcType=INTEGER},
+      </if>
+      <if test="duihao != null" >
+        #{duihao,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zt.pojo.po.TOrderExample" resultType="java.lang.Integer" >
+    select count(*) from t_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_order
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderno != null" >
+        orderNo = #{record.orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mailno != null" >
+        mailNo = #{record.mailno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companycode != null" >
+        companyCode = #{record.companycode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiveman != null" >
+        receiveMan = #{record.receiveman,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receivemanphone != null" >
+        receiveManPhone = #{record.receivemanphone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receivemanaddress != null" >
+        receiveManAddress = #{record.receivemanaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiveprovince != null" >
+        receiveProvince = #{record.receiveprovince,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receivecity != null" >
+        receiveCity = #{record.receivecity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receivecounty != null" >
+        receiveCounty = #{record.receivecounty,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sendname != null" >
+        sendName = #{record.sendname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sendtel != null" >
+        sendTel = #{record.sendtel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sendaddress != null" >
+        sendAddress = #{record.sendaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemcount != null" >
+        itemCount = #{record.itemcount,jdbcType=INTEGER},
+      </if>
+      <if test="record.expresscode != null" >
+        expressCode = #{record.expresscode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderstatus != null" >
+        orderStatus = #{record.orderstatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderstep != null" >
+        orderStep = #{record.orderstep,jdbcType=INTEGER},
+      </if>
+      <if test="record.batchno != null" >
+        batchNo = #{record.batchno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weight != null" >
+        weight = #{record.weight,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weighttime != null" >
+        weightTime = #{record.weighttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.weightuserid != null" >
+        weightUserId = #{record.weightuserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null" >
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isdeleted != null" >
+        isDeleted = #{record.isdeleted,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemname != null" >
+        itemName = #{record.itemname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.signstatus != null" >
+        signStatus = #{record.signstatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.signdate != null" >
+        signDate = #{record.signdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.signprescription != null" >
+        signPrescription = #{record.signprescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logisticstrack != null" >
+        logisticsTrack = #{record.logisticstrack,jdbcType=VARCHAR},
+      </if>
+      <if test="record.markdestination != null" >
+        markDestination = #{record.markdestination,jdbcType=VARCHAR},
+      </if>
+      <if test="record.billprovidesitename != null" >
+        billProvideSiteName = #{record.billprovidesitename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.billprovidesitecode != null" >
+        billProvideSiteCode = #{record.billprovidesitecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isclosing != null" >
+        isclosing = #{record.isclosing,jdbcType=INTEGER},
+      </if>
+      <if test="record.shipping != null" >
+        shipping = #{record.shipping,jdbcType=INTEGER},
+      </if>
+      <if test="record.duihao != null" >
+        duihao = #{record.duihao,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_order
+    set id = #{record.id,jdbcType=INTEGER},
+      orderNo = #{record.orderno,jdbcType=VARCHAR},
+      mailNo = #{record.mailno,jdbcType=VARCHAR},
+      companyCode = #{record.companycode,jdbcType=VARCHAR},
+      receiveMan = #{record.receiveman,jdbcType=VARCHAR},
+      receiveManPhone = #{record.receivemanphone,jdbcType=VARCHAR},
+      receiveManAddress = #{record.receivemanaddress,jdbcType=VARCHAR},
+      receiveProvince = #{record.receiveprovince,jdbcType=VARCHAR},
+      receiveCity = #{record.receivecity,jdbcType=VARCHAR},
+      receiveCounty = #{record.receivecounty,jdbcType=VARCHAR},
+      sendName = #{record.sendname,jdbcType=VARCHAR},
+      sendTel = #{record.sendtel,jdbcType=VARCHAR},
+      sendAddress = #{record.sendaddress,jdbcType=VARCHAR},
+      itemCount = #{record.itemcount,jdbcType=INTEGER},
+      expressCode = #{record.expresscode,jdbcType=VARCHAR},
+      orderStatus = #{record.orderstatus,jdbcType=INTEGER},
+      orderStep = #{record.orderstep,jdbcType=INTEGER},
+      batchNo = #{record.batchno,jdbcType=VARCHAR},
+      weight = #{record.weight,jdbcType=VARCHAR},
+      weightTime = #{record.weighttime,jdbcType=TIMESTAMP},
+      weightUserId = #{record.weightuserid,jdbcType=INTEGER},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      isDeleted = #{record.isdeleted,jdbcType=INTEGER},
+      itemName = #{record.itemname,jdbcType=VARCHAR},
+      signStatus = #{record.signstatus,jdbcType=INTEGER},
+      signDate = #{record.signdate,jdbcType=TIMESTAMP},
+      signPrescription = #{record.signprescription,jdbcType=VARCHAR},
+      logisticsTrack = #{record.logisticstrack,jdbcType=VARCHAR},
+      markDestination = #{record.markdestination,jdbcType=VARCHAR},
+      billProvideSiteName = #{record.billprovidesitename,jdbcType=VARCHAR},
+      billProvideSiteCode = #{record.billprovidesitecode,jdbcType=VARCHAR},
+      isclosing = #{record.isclosing,jdbcType=INTEGER},
+      shipping = #{record.shipping,jdbcType=INTEGER},
+      duihao = #{record.duihao,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zt.pojo.po.TOrder" >
+    update t_order
+    <set >
+      <if test="orderno != null" >
+        orderNo = #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="mailno != null" >
+        mailNo = #{mailno,jdbcType=VARCHAR},
+      </if>
+      <if test="companycode != null" >
+        companyCode = #{companycode,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveman != null" >
+        receiveMan = #{receiveman,jdbcType=VARCHAR},
+      </if>
+      <if test="receivemanphone != null" >
+        receiveManPhone = #{receivemanphone,jdbcType=VARCHAR},
+      </if>
+      <if test="receivemanaddress != null" >
+        receiveManAddress = #{receivemanaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveprovince != null" >
+        receiveProvince = #{receiveprovince,jdbcType=VARCHAR},
+      </if>
+      <if test="receivecity != null" >
+        receiveCity = #{receivecity,jdbcType=VARCHAR},
+      </if>
+      <if test="receivecounty != null" >
+        receiveCounty = #{receivecounty,jdbcType=VARCHAR},
+      </if>
+      <if test="sendname != null" >
+        sendName = #{sendname,jdbcType=VARCHAR},
+      </if>
+      <if test="sendtel != null" >
+        sendTel = #{sendtel,jdbcType=VARCHAR},
+      </if>
+      <if test="sendaddress != null" >
+        sendAddress = #{sendaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="itemcount != null" >
+        itemCount = #{itemcount,jdbcType=INTEGER},
+      </if>
+      <if test="expresscode != null" >
+        expressCode = #{expresscode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderstatus != null" >
+        orderStatus = #{orderstatus,jdbcType=INTEGER},
+      </if>
+      <if test="orderstep != null" >
+        orderStep = #{orderstep,jdbcType=INTEGER},
+      </if>
+      <if test="batchno != null" >
+        batchNo = #{batchno,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=VARCHAR},
+      </if>
+      <if test="weighttime != null" >
+        weightTime = #{weighttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="weightuserid != null" >
+        weightUserId = #{weightuserid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isdeleted != null" >
+        isDeleted = #{isdeleted,jdbcType=INTEGER},
+      </if>
+      <if test="itemname != null" >
+        itemName = #{itemname,jdbcType=VARCHAR},
+      </if>
+      <if test="signstatus != null" >
+        signStatus = #{signstatus,jdbcType=INTEGER},
+      </if>
+      <if test="signdate != null" >
+        signDate = #{signdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signprescription != null" >
+        signPrescription = #{signprescription,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticstrack != null" >
+        logisticsTrack = #{logisticstrack,jdbcType=VARCHAR},
+      </if>
+      <if test="markdestination != null" >
+        markDestination = #{markdestination,jdbcType=VARCHAR},
+      </if>
+      <if test="billprovidesitename != null" >
+        billProvideSiteName = #{billprovidesitename,jdbcType=VARCHAR},
+      </if>
+      <if test="billprovidesitecode != null" >
+        billProvideSiteCode = #{billprovidesitecode,jdbcType=VARCHAR},
+      </if>
+      <if test="isclosing != null" >
+        isclosing = #{isclosing,jdbcType=INTEGER},
+      </if>
+      <if test="shipping != null" >
+        shipping = #{shipping,jdbcType=INTEGER},
+      </if>
+      <if test="duihao != null" >
+        duihao = #{duihao,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zt.pojo.po.TOrder" >
+    update t_order
+    set orderNo = #{orderno,jdbcType=VARCHAR},
+      mailNo = #{mailno,jdbcType=VARCHAR},
+      companyCode = #{companycode,jdbcType=VARCHAR},
+      receiveMan = #{receiveman,jdbcType=VARCHAR},
+      receiveManPhone = #{receivemanphone,jdbcType=VARCHAR},
+      receiveManAddress = #{receivemanaddress,jdbcType=VARCHAR},
+      receiveProvince = #{receiveprovince,jdbcType=VARCHAR},
+      receiveCity = #{receivecity,jdbcType=VARCHAR},
+      receiveCounty = #{receivecounty,jdbcType=VARCHAR},
+      sendName = #{sendname,jdbcType=VARCHAR},
+      sendTel = #{sendtel,jdbcType=VARCHAR},
+      sendAddress = #{sendaddress,jdbcType=VARCHAR},
+      itemCount = #{itemcount,jdbcType=INTEGER},
+      expressCode = #{expresscode,jdbcType=VARCHAR},
+      orderStatus = #{orderstatus,jdbcType=INTEGER},
+      orderStep = #{orderstep,jdbcType=INTEGER},
+      batchNo = #{batchno,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=VARCHAR},
+      weightTime = #{weighttime,jdbcType=TIMESTAMP},
+      weightUserId = #{weightuserid,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      isDeleted = #{isdeleted,jdbcType=INTEGER},
+      itemName = #{itemname,jdbcType=VARCHAR},
+      signStatus = #{signstatus,jdbcType=INTEGER},
+      signDate = #{signdate,jdbcType=TIMESTAMP},
+      signPrescription = #{signprescription,jdbcType=VARCHAR},
+      logisticsTrack = #{logisticstrack,jdbcType=VARCHAR},
+      markDestination = #{markdestination,jdbcType=VARCHAR},
+      billProvideSiteName = #{billprovidesitename,jdbcType=VARCHAR},
+      billProvideSiteCode = #{billprovidesitecode,jdbcType=VARCHAR},
+      isclosing = #{isclosing,jdbcType=INTEGER},
+      shipping = #{shipping,jdbcType=INTEGER},
+      duihao = #{duihao,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

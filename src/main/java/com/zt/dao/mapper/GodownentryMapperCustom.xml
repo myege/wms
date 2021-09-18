@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.GodownentryMapperCustom" >
+	<sql id="whereGodownentryCustom">
+		<if test="godownentryCustom!=null">
+			<where>1 = 1 
+			and find_in_set(b.companyCode,(select a.companyCode from t_users a where id = #{godownentryCustom.userid}))>0
+				<if test="godownentryCustom.godowndh!=null">
+					and godownDh like '%${godownentryCustom.godowndh}%'
+				</if>
+				<if test="godownentryCustom.companycode!=null">
+					and companyCode like '%${godownentryCustom.companycode}%'
+				</if>
+				<if test="godownentryCustom.findarrivaltime!=null">
+					and arrivaltime=#{godownentryCustom.findarrivaltime}
+				</if>
+				
+			</where>
+			
+		</if>
+		ORDER BY createTime DESC
+	</sql>
+  <select id="findAll" parameterType="com.zt.pojo.vo.GodownentryQueryVo" resultType="com.zt.pojo.po.GodownentryCustom">
+  	select * from r_Godownentry b
+  	<include refid="whereGodownentryCustom"/>
+  	<include refid="com.zt.dao.mapper.Common.pageQuery"/>
+  </select>
+  
+  <select id="count" parameterType="com.zt.pojo.vo.GodownentryQueryVo" resultType="int">
+  	select count(id) from r_Godownentry b
+  	<include refid="whereGodownentryCustom"/>
+  </select>
+  
+ <insert  id="impGod" parameterType="com.zt.pojo.po.RGodownentry" >
+	insert into r_Godownentry(godowndh, deliverydh, companycode,companyname,cases,num,arrivaltime,name,type)
+	values
+	<foreach collection="list" item="item" index="index" separator=",">  
+		(#{item.godowndh}, #{item.deliverydh},
+   	 	 #{item.companycode},
+ 	  		#{item.companyname},
+ 	  		#{item.cases}, #{item.num},#{item.arrivaltime},#{item.name},#{item.type}
+    	)
+    </foreach>  
+</insert>
+  
+   <insert  id="impGodSku" parameterType="com.zt.pojo.po.RGodownentrySku" >
+	insert into r_Godownentry_sku(godowndh,companycode,itemcode,sku,sum,betterusedata,itemname)
+	values
+	<foreach collection="list" item="item" index="index" separator=",">  
+		(#{item.godowndh}, #{item.companycode},
+   	 	 #{item.itemcode},
+ 	  		#{item.sku},
+ 	  		#{item.sum}, #{item.betterusedata},
+    	 #{item.itemname})
+    </foreach>  
+</insert>
+  
+<select id="finddeliveryDh" parameterType="string" resultType="com.zt.pojo.po.RGodownentry">
+select *from r_Godownentry where deliveryDh = #{_parameter}
+</select>  
+  
+ <select id="findtypeAndSku" resultType="com.zt.pojo.po.RGodownentry">
+ SELECT   a.*   FROM   r_Godownentry a  LEFT   JOIN   r_Godownentry_sku b    ON   a.godowndh=b.godowndh WHERE a.type=0  and b.godowndh IS not NULL
+ </select>
+  
+  <select id="findtypeAndSkuTure" resultType="com.zt.pojo.po.RGodownentry">
+   	SELECT a.* FROM r_Godownentry a LEFT JOIN r_Godownentry_sku b  ON a.godowndh=b.godowndh WHERE a.type=1 AND b.godowndh IS NULL
+ </select>
+  
+</mapper>

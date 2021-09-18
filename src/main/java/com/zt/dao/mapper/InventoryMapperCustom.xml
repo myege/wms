@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.InventoryMapperCustom" >
+	<sql id="whereInventoryCustom">
+		<if test="inventoryCustom!=null">
+			<where>
+				<if test="inventoryCustom.companycode!=null">
+					and companyCode like '%${inventoryCustom.companycode}%'
+				</if>
+				<if test="inventoryCustom.itemname!=null">
+					and itemName like '%${inventoryCustom.itemname}%'
+				</if>
+				<if test="inventoryCustom.itemcode!=null">
+					and itemCode like '%${inventoryCustom.itemcode}%'
+				</if>
+				<if test="inventoryCustom.storage!=null">
+					and storage like '%${inventoryCustom.storage}%'
+				</if>
+				<if test="inventoryCustom.type!=null">
+					and type = ${inventoryCustom.type}
+				</if>
+				<if test="inventoryCustom.itemsku!=null">
+					and itemsku like '%${inventoryCustom.itemsku}%'
+				</if>
+				<if test="inventoryCustom.inCompanycode!=null">
+					and companyCode in
+					<foreach collection="inventoryCustom.inCompanycode" open="(" close=")" separator="," item="companyCode">
+						#{companyCode}
+					</foreach>
+				</if>
+				<if test="inventoryCustom.hasDefect!=null and inventoryCustom.hasDefect==0">
+					and defective > 0
+				</if>
+				<if test="inventoryCustom.hasDefect!=null and inventoryCustom.hasDefect==1">
+					and defective = 0
+				</if>
+				
+			</where>
+		</if>
+	</sql>
+  <select id="findAll" parameterType="com.zt.pojo.vo.InventoryQueryVo" resultType="com.zt.pojo.po.InventoryCustom"><!-- &lt; -->
+  SELECT a.* FROM (SELECT *,(
+	CASE WHEN inventory  &lt;   #{kcjg} AND betterUseData  &gt; #{sjjg} THEN 3
+	WHEN inventory  	&gt;	#{kcjg} AND betterUseData  &lt; #{sjjg} THEN 2
+	WHEN inventory     &lt;     #{kcjg} AND betterUseData  &lt; #{sjjg} THEN 1
+					ELSE 4 END
+					) AS IndexNo
+					FROM r_inventory
+					) a
+	<include refid="whereInventoryCustom"/>
+	ORDER BY a.betterUseData ASC
+	<include refid="com.zt.dao.mapper.Common.pageQuery"/>
+  </select>
+  
+<select id="findAllOut" parameterType="com.zt.pojo.vo.InventoryQueryVo" statementType="STATEMENT" resultType="java.util.HashMap">
+select   a.*,sum(CASE WHEN b.inventory  is null THEN 0 ELSE b.inventory END)shift   from
+( select companyCode,itemName,itemSku,itemCode,sum(inventory) as inventory,sum(InventoryOccupy) as InventoryOccupy,sum(InventoryFrozen)as InventoryFrozen 
+from r_inventory where itemsku in(${inventoryCustom.itemsku})and companyCode like '%${inventoryCustom.companycode}%' and storage not like "F%" GROUP BY itemCode,companyCode)a  
+left   join  r_inventory b     on   a. itemSku=b.itemSku and a.companyCode = b.companyCode and storage like "F%"    GROUP BY itemCode,companyCode
+</select>
+
+
+<select id="findAllOuttow" parameterType="com.zt.pojo.vo.InventoryQueryVo" statementType="STATEMENT" resultType="java.util.HashMap">
+select companyCode,itemName,itemSku,itemCode,inventory,InventoryOccupy,InventoryFrozen  from r_inventory 	
+<include refid="whereInventoryCustom"/> 
+GROUP BY itemCode
+</select>
+  
+  
+  
+  <select id="count" parameterType="com.zt.pojo.vo.InventoryQueryVo" resultType="int">
+  	select count(id) from r_inventory
+  	<include refid="whereInventoryCustom"/>
+  </select> 
+  
+  <select id="findByIds" parameterType="string" resultType="com.zt.pojo.po.InventoryCustom">
+  	select * from r_inventory
+	where id in 
+	(${value} )
+  </select>
+
+  <select id="getInventoryBySkuIds"  resultType="com.zt.pojo.po.InventoryCustom">
+  	 select sum(itemCount) inventory,itemCode,itemName,(select companyCode from t_order where mailNo = t.mailNo ) companyCode  from t_order_sku t where isDeleted =0 and 
+  	 mailNo in (select mailNo from t_order where id in 
+  	 <foreach collection="array" separator="," open="(" close=")" item="id">
+  	 	${id}
+  	 </foreach>
+  	 )
+  	 GROUP BY itemCode,companyCode
+  </select>
+
+  <select id="getTotalInventoryByItemcode"  resultType="int" parameterType="com.zt.pojo.po.InventoryCustom">
+	select sum(inventory) from r_inventory where itemCode = #{0} and companyCode in (${param2}) and sort=1 and Shift  &lt;= 0 and Type = 0  
+  </select>
+  
+  <select id="getInventorysByItemcode"  resultType="com.zt.pojo.po.InventoryCustom" >
+	select * from r_inventory where itemCode=#{0} and companyCode in (${param2}) and type = 0 and sort = 1 order by betterUseData,inventory 
+  </select>
+  
+   <select id="getInventorysByItemcodeAndType"  resultType="com.zt.pojo.po.InventoryCustom" >
+	select * from r_inventory where itemCode=#{0} and companyCode =#{1} and type = 0 and sort = 1 order by betterUseData,inventory 
+  </select>
+  
+   <select id="transferUi"  resultType="com.zt.pojo.po.InventoryCustom" >
+	select * from r_inventory where itemCode=#{0} and companyCode =#{1} and type = 0  order by betterUseData,inventory 
+  </select>
+  
+  <select id="findCodeAndStorage" resultType="com.zt.pojo.po.RInventory" parameterType="com.zt.pojo.po.RInventory">
+  	select * from r_inventory where itemCode=#{itemcode} and storage=#{storage} and type=0
+  </select>
+  
+   <select id="findUpType" resultType="com.zt.pojo.po.RInventory" parameterType="com.zt.pojo.po.RInventory">
+  	select * from r_inventory where storage in
+  	<foreach collection="list" item="item" separator="," open="(" close=")"> 
+  		#{item.storage}
+  	</foreach>
+  	and inventory = '0' AND (InventoryOccupy = '0' or InventoryOccupy like '-%') AND  InventoryFrozen = '0' and type='0'
+  </select> 
+  
+<update id="updateInventory"  parameterType="com.zt.pojo.po.RInventory">
+<foreach collection="list" item="item" separator=";"> 
+  	 update r_inventory  
+   set 
+   inventoryoccupy=inventoryoccupy-${item.inventory}
+   where itemCode = #{item.itemcode} and storage=#{item.storage} and type = 0
+</foreach>
+</update>
+  
+  <!-- 修改状态 -->
+  <update id="updateType"  parameterType="com.zt.pojo.po.RInventory">
+   update r_inventory   set type=1  where id in
+<foreach collection="list" item="item" separator="," open="(" close=")"> 
+   #{item.id}
+</foreach>
+
+<!-- 修改状态 --><!-- 
+  <update id="updateType"  parameterType="com.zt.pojo.po.RInventory">
+   update r_inventory   set type=1  where storage in
+<foreach collection="list" item="item" separator="," open="(" close=")"> 
+   #{item.storage}
+</foreach> -->
+</update>
+
+ <!-- 订单取消，库存回扣 -->
+ <update id="updateTurn"  >
+	<foreach collection="list" item="item" separator=";" > 
+	update r_inventory  set inventoryoccupy=inventoryoccupy-${item.inventoryoccupy} ,inventory=inventory+${item.inventoryoccupy}  where storage = '${item.storage}'
+	</foreach>
+ </update>
+  
+  <select id="findBysto" parameterType="string" resultType="int">
+  	select id from r_inventory where storage = #{_parameter} and type = 0
+  </select>
+  
+  <select id="findByCompany" parameterType="string" resultType="string">
+  	SELECT storage FROM r_inventory inv WHERE companyCode = #{_parameter} and InventoryOccupy = 0
+  </select>
+  
+   <update id="updatekuc" parameterType="string" >
+	update r_inventory set omwtype = 1 where id in (${value})
+ </update>
+  
+  <update id="updateType1" parameterType="string" >
+	update r_inventory set type = '1' where  type='0' and inventory='0' and (InventoryOccupy = '0' or InventoryOccupy like '-%') and inventoryfrozen='0'
+ </update>
+ 
+  <update id="updateType2" parameterType="string" >
+	update t_floor_storage set type = '0' where  storage not in (SELECT storage from r_inventory  where type=0 ) and type='1'
+ </update>
+ 
+  <update id="updateInventoryOccupy" parameterType="string" >
+	update r_inventory set inventoryOccupy = '0' where type='0' and inventoryFrozen='0' and inventoryOccupy !='0'
+ </update>
+  
+ <update id="transfer"  parameterType="com.zt.pojo.po.RInventory">
+ 	update r_inventory set inventory=#{inventory},omwtype=#{omwtype} where itemCode = #{itemcode} and storage=#{storage} and type=0
+ </update>
+  
+  <select id="findStorage"  parameterType="string" resultType="com.zt.pojo.po.RInventory">
+ 	 SELECT * FROM r_inventory  WHERE storage = #{_parameter} and type = 0
+  </select>
+  
+  
+  <select id="findByType"  resultType="string">
+ 	 SELECT storage FROM r_inventory  WHERE  type = 0
+  </select>
+  
+  <select id="getUsableInventoryByItemSku" parameterType="String" resultType="com.zt.pojo.po.InventoryCustom">
+  SELECT sum(inventory) as inventory,itemName,itemSku FROM r_inventory WHERE itemSku in (
+  <foreach collection="array" item="sku" separator=",">
+  #{sku}
+  </foreach>
+  ) GROUP BY itemSku 
+  </select>
+</mapper>

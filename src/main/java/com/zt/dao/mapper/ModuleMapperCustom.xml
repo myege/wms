@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.ModuleMapperCustom" >
+	<sql id="whereModuleCustom">
+		<if test="moduleCustom!=null">
+			<where>
+				<if test="moduleCustom.modularid!=null">
+					and modularId like '%${moduleCustom.modularid}%'
+				</if>
+				<if test="moduleCustom.modularname!=null">
+					and modularName like '%${moduleCustom.modularname}%'
+				</if>
+				<if test="moduleCustom.startTime!=null">
+					and createTime &gt;= #{moduleCustom.startTime}
+				</if>
+				<if test="moduleCustom.endTime!=null">
+					and createTime &lt;= #{moduleCustom.endTime}
+				</if>
+			</where>
+		</if> 
+	</sql>
+	
+	<sql id="whereButtonCustom">
+		<if test="buttonCustom!=null">
+			<where>
+				<if test="buttonCustom.modularid!=null">
+					and modularId = #{buttonCustom.modularid}
+				</if>
+				<if test="buttonCustom.buttonid!=null">
+					and buttonId like '%${buttonCustom.buttonid}%'
+				</if>
+				<if test="buttonCustom.buttonname!=null">
+					and buttonName like '%${buttonCustom.buttonname}%'
+				</if>
+				<if test="buttonCustom.startTime!=null">
+					and createTime &gt;= #{buttonCustom.startTime}
+				</if>
+				<if test="buttonCustom.endTime!=null">
+					and createTime &lt;= #{buttonCustom.endTime}
+				</if>
+			</where>
+		</if> 
+	</sql>
+  <select id="findAll" parameterType="com.zt.pojo.vo.ModuleQueryVo" resultType="com.zt.pojo.po.ModuleCustom">
+  	select * from t_modular
+  	<include refid="whereModuleCustom"/>
+  	<include refid="com.zt.dao.mapper.Common.pageQuery"/>
+  </select>
+  
+  <select id="count" parameterType="com.zt.pojo.vo.ModuleQueryVo" resultType="int">
+  	select count(id) from t_modular
+  	<include refid="whereModuleCustom"/>
+  </select>
+  
+   <select id="findAllButton" parameterType="com.zt.pojo.vo.ModuleQueryVo" resultType="com.zt.pojo.po.ButtonCustom">
+  	select * from t_modular_button
+  	<include refid="whereButtonCustom"/>
+  	<include refid="com.zt.dao.mapper.Common.pageQuery"/>
+  </select>
+  
+  <select id="countButton" parameterType="com.zt.pojo.vo.ModuleQueryVo" resultType="int">
+  	select count(id) from t_modular_button
+  	<include refid="whereButtonCustom"/>
+  </select>
+
+  <update id="updateModularid">
+  	update t_modular_button set modularId = #{1} where modularId=#{0} 
+  </update>
+  
+  <delete id="deleteModularid" parameterType="string">
+  	delete from t_modular_button where modularId=#{string} 
+  </delete>
+</mapper>

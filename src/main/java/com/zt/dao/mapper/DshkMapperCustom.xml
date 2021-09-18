@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.DshkMapperCustom" >
+	<sql id="whereDshkCustom">
+		<if test="dshkCustom!=null">
+			<where>
+				<if test="dshkCustom.companycode!=null">
+					and companycode = #{dshkCustom.companycode}
+				</if>
+				<if test="dshkCustom.orderno!=null">
+					and orderno like '%${dshkCustom.orderno}%'
+				</if>
+				<if test="dshkCustom.startTime!=null">
+					and createTime &gt;= #{dshkCustom.startTime}
+				</if>
+				<if test="dshkCustom.endTime!=null">
+					and createTime &lt;= #{dshkCustom.endTime}
+				</if>
+			</where>
+		</if>
+	</sql>
+  <select id="findAll" parameterType="com.zt.pojo.vo.DshkQueryVo" resultType="com.zt.pojo.po.DshkCustom">
+  	select * from t_dshk
+  	<include refid="whereDshkCustom"/>
+  	<include refid="com.zt.dao.mapper.Common.pageQuery"/>
+  </select>
+  
+  <select id="count" parameterType="com.zt.pojo.vo.DshkQueryVo" resultType="int">
+  	select count(id) from t_dshk
+  	<include refid="whereDshkCustom"/>
+  </select>
+
+  <delete id="deleteByIds">
+  	delete from t_dshk where id in
+  	<foreach collection="array" open="(" close=")" item="id" separator=",">
+  		${id}
+  	</foreach>
+  </delete>
+  
+   <select id="findByCompanycodeAndOrderno" resultType="com.zt.pojo.po.TDshk">
+  	select * from t_dshk where companyCode = #{0} and orderno = #{1} 
+  </select>
+</mapper>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.WebportMapperCustom" >
+	<sql id="whereWebPort">
+		<if test="webPort!=null">
+			<where>
+				<if test="webPort.tab!=null">
+					and tab = #{webPort.tab}
+				</if>		
+				<if test="webPort.bm!=null">
+					and bm = #{webPort.bm}
+				</if>	
+				<if test="webPort.tj!=null">
+					and tj = #{webPort.tj}
+				</if>	 						
+			</where>
+		</if>
+	</sql>
+
+
+
+
+ <select id="findById" parameterType="string" resultType="com.zt.pojo.po.Webport">
+	select * from webport where code = #{_parameter}
+</select>
+	
+<select id="findByElec" parameterType="com.zt.pojo.po.Webport" statementType="STATEMENT" resultType="java.util.HashMap">
+	SELECT * FROM ${tab} where ${bm} in (${tj}) 
+	<if test="tab =='r_inventory'">
+		and (omwtype IS NULL OR omwtype=0 OR omwtype=2) and storage  NOT LIKE 'F%'  and type = 0
+	</if>
+</select>
+	
+<select id="findAll" resultType="com.zt.pojo.po.Webport" parameterType="com.zt.pojo.vo.WebPortQueryVo">
+	select * from webport
+	<include refid="whereWebPort"/>
+	<include refid="com.zt.dao.mapper.Common.pageQuery"/>
+</select>
+	
+<select id="count" parameterType="com.zt.pojo.vo.WebPortQueryVo" resultType="int">
+  	select count(id) from webport
+  	<include refid="whereWebPort"/>
+</select>
+  
+<update id="inventorySF" parameterType="map" statementType="STATEMENT">
+	update ${tab} set type = 1 where inventory = ${inventory} and InventoryOccupy=${InventoryOccupy} and InventoryFrozen=${InventoryFrozen}
+</update>
+<select id="findStorageType" resultType="string">
+	select distinct a.storage
+	from r_inventory a
+	inner join r_inventory b on a.storage=b.storage
+	where b.inventory =0 and b.InventoryOccupy=0 and b.InventoryFrozen=0
+	and a.storage not in (select storage from r_inventory  where storage In (select storage from r_inventory  where inventory =0 and InventoryOccupy=0 and InventoryFrozen=0) and ( inventory >0 or InventoryOccupy>0 or InventoryFrozen>0))
+</select> 
+<update id="updateFloorType">
+	update t_floor_storage set type = 0 where storage in <foreach collection="list" item="it" open="(" close=")" separator=",">#{it}</foreach>
+</update>
+  
+</mapper>

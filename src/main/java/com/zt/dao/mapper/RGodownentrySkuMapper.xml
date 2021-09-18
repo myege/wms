@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zt.dao.mapper.RGodownentrySkuMapper" >
+  <resultMap id="BaseResultMap" type="com.zt.pojo.po.RGodownentrySku" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="godownDh" property="godowndh" jdbcType="VARCHAR" />
+    <result column="companyCode" property="companycode" jdbcType="VARCHAR" />
+    <result column="itemCode" property="itemcode" jdbcType="VARCHAR" />
+    <result column="sku" property="sku" jdbcType="VARCHAR" />
+    <result column="sum" property="sum" jdbcType="INTEGER" />
+    <result column="betterUseData" property="betterusedata" jdbcType="DATE" />
+    <result column="itemName" property="itemname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, godownDh, companyCode, itemCode, sku, sum, betterUseData, itemName
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zt.pojo.po.RGodownentrySkuExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from r_godownentry_sku
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    ORDER BY betterUseData  DESC
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from r_godownentry_sku
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from r_godownentry_sku
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zt.pojo.po.RGodownentrySkuExample" >
+    delete from r_godownentry_sku
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zt.pojo.po.RGodownentrySku" >
+    insert into r_godownentry_sku (id, godownDh, companyCode, 
+      itemCode, sku, sum, 
+      betterUseData, itemName)
+    values (#{id,jdbcType=INTEGER}, #{godowndh,jdbcType=VARCHAR}, #{companycode,jdbcType=VARCHAR}, 
+      #{itemcode,jdbcType=VARCHAR}, #{sku,jdbcType=VARCHAR}, #{sum,jdbcType=INTEGER}, 
+      #{betterusedata,jdbcType=DATE}, #{itemname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zt.pojo.po.RGodownentrySku" >
+    insert into r_godownentry_sku
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="godowndh != null" >
+        godownDh,
+      </if>
+      <if test="companycode != null" >
+        companyCode,
+      </if>
+      <if test="itemcode != null" >
+        itemCode,
+      </if>
+      <if test="sku != null" >
+        sku,
+      </if>
+      <if test="sum != null" >
+        sum,
+      </if>
+      <if test="betterusedata != null" >
+        betterUseData,
+      </if>
+      <if test="itemname != null" >
+        itemName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="godowndh != null" >
+        #{godowndh,jdbcType=VARCHAR},
+      </if>
+      <if test="companycode != null" >
+        #{companycode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemcode != null" >
+        #{itemcode,jdbcType=VARCHAR},
+      </if>
+      <if test="sku != null" >
+        #{sku,jdbcType=VARCHAR},
+      </if>
+      <if test="sum != null" >
+        #{sum,jdbcType=INTEGER},
+      </if>
+      <if test="betterusedata != null" >
+        #{betterusedata,jdbcType=DATE},
+      </if>
+      <if test="itemname != null" >
+        #{itemname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zt.pojo.po.RGodownentrySkuExample" resultType="java.lang.Integer" >
+    select count(*) from r_godownentry_sku
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update r_godownentry_sku
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.godowndh != null" >
+        godownDh = #{record.godowndh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companycode != null" >
+        companyCode = #{record.companycode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemcode != null" >
+        itemCode = #{record.itemcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sku != null" >
+        sku = #{record.sku,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sum != null" >
+        sum = #{record.sum,jdbcType=INTEGER},
+      </if>
+      <if test="record.betterusedata != null" >
+        betterUseData = #{record.betterusedata,jdbcType=DATE},
+      </if>
+      <if test="record.itemname != null" >
+        itemName = #{record.itemname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update r_godownentry_sku
+    set id = #{record.id,jdbcType=INTEGER},
+      godownDh = #{record.godowndh,jdbcType=VARCHAR},
+      companyCode = #{record.companycode,jdbcType=VARCHAR},
+      itemCode = #{record.itemcode,jdbcType=VARCHAR},
+      sku = #{record.sku,jdbcType=VARCHAR},
+      sum = #{record.sum,jdbcType=INTEGER},
+      betterUseData = #{record.betterusedata,jdbcType=DATE},
+      itemName = #{record.itemname,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zt.pojo.po.RGodownentrySku" >
+    update r_godownentry_sku
+    <set >
+      <if test="godowndh != null" >
+        godownDh = #{godowndh,jdbcType=VARCHAR},
+      </if>
+      <if test="companycode != null" >
+        companyCode = #{companycode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemcode != null" >
+        itemCode = #{itemcode,jdbcType=VARCHAR},
+      </if>
+      <if test="sku != null" >
+        sku = #{sku,jdbcType=VARCHAR},
+      </if>
+      <if test="sum != null" >
+        sum = #{sum,jdbcType=INTEGER},
+      </if>
+      <if test="betterusedata != null" >
+        betterUseData = #{betterusedata,jdbcType=DATE},
+      </if>
+      <if test="itemname != null" >
+        itemName = #{itemname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zt.pojo.po.RGodownentrySku" >
+    update r_godownentry_sku
+    set godownDh = #{godowndh,jdbcType=VARCHAR},
+      companyCode = #{companycode,jdbcType=VARCHAR},
+      itemCode = #{itemcode,jdbcType=VARCHAR},
+      sku = #{sku,jdbcType=VARCHAR},
+      sum = #{sum,jdbcType=INTEGER},
+      betterUseData = #{betterusedata,jdbcType=DATE},
+      itemName = #{itemname,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

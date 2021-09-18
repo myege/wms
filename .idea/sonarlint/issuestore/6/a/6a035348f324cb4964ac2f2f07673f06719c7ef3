@@ -1,0 +1,52 @@
+
+f
+java:S1192œ"ODefine a constant instead of duplicating this literal "betterusedata" 10 times.(·Ö¥µ
+[	java:S112v"FDefine and throw a dedicated exception instead of using a generic one.(„ØŒ
+\	java:S112‚"FDefine and throw a dedicated exception instead of using a generic one.(Ÿïîè
+`
+java:S1124G"EReorder the modifiers to comply with the Java Language Specification.(µ‹ñâşÿÿÿÿ
+i
+java:S1192Î"MDefine a constant instead of duplicating this literal "companycode" 12 times.(§æœ‡ÿÿÿÿÿ
+T
+java:S1155u">Use isEmpty() to check whether the collection is empty or not.(õíõè
+b
+java:S1192¢"KDefine a constant instead of duplicating this literal "inventory" 10 times.(‘Š¡ú
+e
+java:S1192 "IDefine a constant instead of duplicating this literal "storage" 12 times.(‚ğšŞÿÿÿÿÿ
+m
+java:S1192Ş"QDefine a constant instead of duplicating this literal "inventoryoccupy" 10 times.(˜–­•ÿÿÿÿÿ
+`
+java:S1192Ø"IDefine a constant instead of duplicating this literal "omwtype" 10 times.(”Şÿ¿
+`
+java:S1192”"IDefine a constant instead of duplicating this literal "itemsku" 12 times.(½¼†ç
+f
+java:S1192	"ODefine a constant instead of duplicating this literal "ispushdefects" 10 times.(ì‹³
+t
+java:S2293I"YReplace the type specification in this constructor call with the diamond operator ("<>").(¥µ’’úÿÿÿÿ
+Y
+java:S1155M">Use isEmpty() to check whether the collection is empty or not.(ÎÍÚÚıÿÿÿÿ
+Z	java:S112Z"FDefine and throw a dedicated exception instead of using a generic one.(Ùˆé<
+t
+java:S2293x"YReplace the type specification in this constructor call with the diamond operator ("<>").(û»ùõıÿÿÿÿ
+[	java:S112o"FDefine and throw a dedicated exception instead of using a generic one.(•™‘
+f
+java:S1192Ú"JDefine a constant instead of duplicating this literal "itemcode" 12 times.(˜« ıÿÿÿÿ
+b
+java:S1192–"KDefine a constant instead of duplicating this literal "defective" 10 times.(°í²Ü
+Y
+java:S11553">Use isEmpty() to check whether the collection is empty or not.(·‘©™øÿÿÿÿ
+[	java:S112h"FDefine and throw a dedicated exception instead of using a generic one.(×°ø
+{
+java:S1488:"`Immediately return this expression instead of assigning it to the temporary variable "criteria".(¹Ÿ„‰ùÿÿÿÿ
+m
+java:S1192š"QDefine a constant instead of duplicating this literal "inventoryfrozen" 10 times.(Œ„Ï‹ıÿÿÿÿ
+f
+java:S1192”"JDefine a constant instead of duplicating this literal "itemname" 12 times.(¼Ú¿üÿÿÿÿ
+c
+java:S1192Ò"GDefine a constant instead of duplicating this literal "shift" 10 times.(ºšúÿÿÿÿ
+[	java:S112a"FDefine and throw a dedicated exception instead of using a generic one.(»•¦
+f
+java:S1192a"PDefine a constant instead of duplicating this literal " cannot be null" 4 times.(»•¦
+n
+java:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(Óî:
+X	java:S125"<This block of commented-out lines of code should be removed.(ùÈ§´8îÏ–Æ¾/
